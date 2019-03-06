@@ -2,33 +2,27 @@
 //  WelcomeVC.swift
 //  Junk Drawer
 //
-//  Created by Megan Brown on 3/4/19.
+//  Created by Megan Brown on 3/5/19.
 //  Copyright © 2019 Megan Brown. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
 class WelcomeVC: UIViewController {
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        
+
+        // Do any additional setup after loading the view.
     }
     
-}
-
-
-extension UIImage{
-    var roundedImage: UIImage {
-        let rect = CGRect(origin:CGPoint(x: 0, y: 0), size: self.size)
-        UIGraphicsBeginImageContextWithOptions(self.size, false, 1)
-        UIBezierPath(
-            roundedRect: rect,
-            cornerRadius: self.size.height
-            ).addClip()
-        self.draw(in: rect)
-        return UIGraphicsGetImageFromCurrentImageContext()!
+    @IBAction func loginPressed(_ sender: Any) {
+        self.performSegue(withIdentifier: "goToLogin", sender: self)
     }
+    
+    @IBAction func registerPressed(_ sender: Any) {
+        self.performSegue(withIdentifier: "goToRegister", sender: self)
+    }
+
+
 }

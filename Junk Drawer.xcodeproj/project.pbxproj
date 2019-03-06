@@ -12,7 +12,11 @@
 		447CEED22226274B006D3CC8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 447CEED02226274B006D3CC8 /* Main.storyboard */; };
 		447CEED42226274D006D3CC8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 447CEED32226274D006D3CC8 /* Assets.xcassets */; };
 		447CEED72226274D006D3CC8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 447CEED52226274D006D3CC8 /* LaunchScreen.storyboard */; };
-		44F7D6AE222E2E5000A9036B /* WelcomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F7D6AD222E2E5000A9036B /* WelcomeVC.swift */; };
+		44F62022222F4AA900264397 /* Roboto-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 44F62021222F4A6F00264397 /* Roboto-Medium.ttf */; };
+		44F62028222F7B5E00264397 /* RegisterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F62027222F7B5E00264397 /* RegisterVC.swift */; };
+		44F6202A222F7B8900264397 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F62029222F7B8900264397 /* LoginVC.swift */; };
+		44F6202C222F7B9C00264397 /* WelcomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F6202B222F7B9C00264397 /* WelcomeVC.swift */; };
+		44F6202E222F7CBC00264397 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F6202D222F7CBC00264397 /* HomeVC.swift */; };
 		6162E1D0538DB5B61C6C955E /* Pods_Junk_Drawer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA00B8A0211A79AAE389F6E8 /* Pods_Junk_Drawer.framework */; };
 /* End PBXBuildFile section */
 
@@ -24,7 +28,11 @@
 		447CEED32226274D006D3CC8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		447CEED62226274D006D3CC8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		447CEED82226274D006D3CC8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		44F7D6AD222E2E5000A9036B /* WelcomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeVC.swift; sourceTree = "<group>"; };
+		44F62021222F4A6F00264397 /* Roboto-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Roboto-Medium.ttf"; sourceTree = "<group>"; };
+		44F62027222F7B5E00264397 /* RegisterVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterVC.swift; sourceTree = "<group>"; };
+		44F62029222F7B8900264397 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
+		44F6202B222F7B9C00264397 /* WelcomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeVC.swift; sourceTree = "<group>"; };
+		44F6202D222F7CBC00264397 /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HomeVC.swift; path = "Junk Drawer/Controller/HomeVC.swift"; sourceTree = SOURCE_ROOT; };
 		C9634A803557D9CA25AA22E6 /* Pods-Junk Drawer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Junk Drawer.release.xcconfig"; path = "Pods/Target Support Files/Pods-Junk Drawer/Pods-Junk Drawer.release.xcconfig"; sourceTree = "<group>"; };
 		DA00B8A0211A79AAE389F6E8 /* Pods_Junk_Drawer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Junk_Drawer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC43D633E47DD7375851C87C /* Pods-Junk Drawer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Junk Drawer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Junk Drawer/Pods-Junk Drawer.debug.xcconfig"; sourceTree = "<group>"; };
@@ -72,6 +80,7 @@
 		447CEECB2226274B006D3CC8 /* Junk Drawer */ = {
 			isa = PBXGroup;
 			children = (
+				44F62020222F4A4900264397 /* Resources */,
 				447CEED82226274D006D3CC8 /* Info.plist */,
 				447CEEE122262A40006D3CC8 /* Supporting Files */,
 				447CEEE022262A34006D3CC8 /* Controller */,
@@ -85,7 +94,6 @@
 			children = (
 				447CEED02226274B006D3CC8 /* Main.storyboard */,
 				447CEED52226274D006D3CC8 /* LaunchScreen.storyboard */,
-				447CEED32226274D006D3CC8 /* Assets.xcassets */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -95,7 +103,10 @@
 			children = (
 				447CEECC2226274B006D3CC8 /* AppDelegate.swift */,
 				447CEECE2226274B006D3CC8 /* ViewController.swift */,
-				44F7D6AD222E2E5000A9036B /* WelcomeVC.swift */,
+				44F62029222F7B8900264397 /* LoginVC.swift */,
+				44F6202B222F7B9C00264397 /* WelcomeVC.swift */,
+				44F62027222F7B5E00264397 /* RegisterVC.swift */,
+				44F6202D222F7CBC00264397 /* HomeVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -105,6 +116,15 @@
 			children = (
 			);
 			path = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		44F62020222F4A4900264397 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				447CEED32226274D006D3CC8 /* Assets.xcassets */,
+				44F62021222F4A6F00264397 /* Roboto-Medium.ttf */,
+			);
+			path = Resources;
 			sourceTree = "<group>";
 		};
 		DF856011101815C37AB07526 /* Frameworks */ = {
@@ -180,6 +200,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				44F62022222F4AA900264397 /* Roboto-Medium.ttf in Resources */,
 				447CEED72226274D006D3CC8 /* LaunchScreen.storyboard in Resources */,
 				447CEED42226274D006D3CC8 /* Assets.xcassets in Resources */,
 				447CEED22226274B006D3CC8 /* Main.storyboard in Resources */,
@@ -252,9 +273,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				44F7D6AE222E2E5000A9036B /* WelcomeVC.swift in Sources */,
 				447CEECF2226274B006D3CC8 /* ViewController.swift in Sources */,
+				44F6202C222F7B9C00264397 /* WelcomeVC.swift in Sources */,
 				447CEECD2226274B006D3CC8 /* AppDelegate.swift in Sources */,
+				44F6202E222F7CBC00264397 /* HomeVC.swift in Sources */,
+				44F62028222F7B5E00264397 /* RegisterVC.swift in Sources */,
+				44F6202A222F7B8900264397 /* LoginVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
