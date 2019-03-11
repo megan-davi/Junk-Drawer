@@ -10,5 +10,6 @@ target 'Junk Drawer' do
     pod 'Firebase/Database'
     pod 'SVProgressHUD'
     pod 'RealmSwift'
+    pod 'SwipeCellKit'
 
 end
