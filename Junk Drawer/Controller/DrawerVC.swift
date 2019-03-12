@@ -1,24 +1,27 @@
 //
 //  DrawerVC.swift
-//  
+//  Junk Drawer
 //
-//  Created by Megan Brown on 3/10/19.
+//  Created by Megan Brown on 3/12/19.
+//  Copyright © 2019 Megan Brown. All rights reserved.
 //
 
 import UIKit
 import RealmSwift
 
-class DrawerVC: UITableViewController {
+class DrawerVC: SwipeCellVC {
     
-    let defaults = UserDefaults.standard
-    var drawers: Results<Drawer>?
+    var allDrawers: Results<Drawer>?
     let realm = try! Realm()
+    
     
     var selectedCategory: Category? {
         didSet{
             loadDrawers()
         }
     }
+    
+    let defaults = UserDefaults.standard
     
     // MARK: - ⎡ 🎂 APP LIFECYCLE METHODS ⎦
     // ———————————————————————————————————————————————————————————————————
@@ -39,15 +42,18 @@ class DrawerVC: UITableViewController {
     
     // runs when app is dismissed
     override func viewWillDisappear(_ animated: Bool) {
-        updateNavBar(withHexCode: "1D9BF6")
     }
     // MARK: - ⎡ 🗺 NAV BAR SETUP METHODS ⎦
     // ———————————————————————————————————————————————————————————————————
     
-    func updateNavBar(withHexCode colorHexCode: String) {
-        guard let navBar = navigationController?.navigationBar else {fatalError("Navigation controller does not exist.")}
-    
-    }
+//    func updateNavBar(withHexCode colorHexCode: String) {
+//        guard let navBar = navigationController?.navigationBar else {fatalError("Navigation controller does not exist.")}
+//        guard let navBarColor = UIColor(hexString: colorHexCode) else {fatalError()}
+//        navBar.barTintColor = navBarColor                                 // background color
+//        navBar.tintColor = ContrastColorOf(navBarColor, returnFlat: true)  // navigation buttons color
+//        searchBar.barTintColor = navBarColor                               // search bar color
+//        navBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: ContrastColorOf(navBarColor, returnFlat: true)]
+//    }
     
     
     // MARK: - ⎡ 📝 TABLEVIEW DATASOURCE METHODS ⎦
@@ -55,7 +61,7 @@ class DrawerVC: UITableViewController {
     
     // set number of rows in table equal to number of items OR 1 if number of items is 0
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return drawers?.count ?? 1
+        return allDrawers?.count ?? 1
     }
     
     // set row equal to item title property and add a checkmark if done property = true, else say there are no items added
@@ -63,8 +69,14 @@ class DrawerVC: UITableViewController {
         
         let cell = super.tableView(tableView, cellForRowAt: indexPath)
         
-        if let drawer = drawers?[indexPath.row] {
+        if let drawer = allDrawers?[indexPath.row] {
             cell.textLabel?.text = drawer.title
+            
+//            if let color = UIColor(hexString: selectedCategory!.color)?.darken(byPercentage: CGFloat(indexPath.row) / CGFloat(todoItems!.count)) {  // gradient cells
+//                cell.backgroundColor = color
+//                cell.textLabel?.textColor = ContrastColorOf(color, returnFlat: true)
+//            }
+            
         } else {
             cell.textLabel?.text = "No Drawers Added"
         }
@@ -75,18 +87,18 @@ class DrawerVC: UITableViewController {
     // MARK: - ⎡ ⭐️ CRUD OPERATIONS ⎦
     // ———————————————————————————————————————————————————————————————————
     
-    // ⭐️ CREATE :: show alert for user to enter new drawer, then save this drawer to realm in the current category and refresh table view
+    // ⭐️ CREATE :: show alert for user to enter new item, then save this item to realm in the current category and refresh table view
     @IBAction func addButtonPressed(_ sender: Any) {
         var textField = UITextField()
-        let alert = UIAlertController(title: "Add New Todoey drawer", message: "", preferredStyle: .alert)
+        let alert = UIAlertController(title: "Add New Drawer", message: "", preferredStyle: .alert)
         
-        let action = UIAlertAction(title: "Add drawer", style: .default) { (action) in
+        let action = UIAlertAction(title: "Add Drawer", style: .default) { (action) in
             if let currentCategory = self.selectedCategory {
                 do {
                     try self.realm.write {
                         let newDrawer = Drawer()
                         newDrawer.title = textField.text!
-                        currentCategory.drawers.append(newDrawer)
+                    currentCategory.drawers.append(newDrawer)
                     }
                 } catch {
                     print("Error saving new drawers \(error)")
@@ -96,7 +108,7 @@ class DrawerVC: UITableViewController {
         }
         
         alert.addTextField { (alertTextField) in
-            alertTextField.placeholder = "Create new drawer"
+            alertTextField.placeholder = "Create new item"
             textField = alertTextField
         }
         alert.addAction(action)
@@ -105,12 +117,12 @@ class DrawerVC: UITableViewController {
     
     // 👀 READ :: retrieve drawers from realm
     func loadDrawers() {
-        drawers = selectedCategory?.drawers.sorted(byKeyPath: "title", ascending: true)
+        allDrawers = selectedCategory?.drawers.sorted(byKeyPath: "title", ascending: true)
         tableView.reloadData()
     }
     
     override func updateModel(at indexPath: IndexPath) {
-        if let drawer = drawers?[indexPath.row] {
+        if let drawer = allDrawers?[indexPath.row] {
             do {
                 try realm.write {
                     realm.delete(drawer)
@@ -121,13 +133,12 @@ class DrawerVC: UITableViewController {
         }
     }
     
-    // ☑️ UPDATE :: when a user clicks a row, save updated "done" property to realm and refresh table view
+    // ☑️ UPDATE :: when a user clicks a row, delete a drawer and refresh table view
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let drawer = drawers?[indexPath.row] {
+        if let drawer = allDrawers?[indexPath.row] {
             do {
                 try realm.write {
-                    // realm.delete(drawer)
-                    drawer.done = !drawer.done
+                    realm.delete(drawer)
                 }
             } catch {
                 print("Error saving done status: \(error)")
@@ -144,7 +155,7 @@ extension DrawerVC: UISearchBarDelegate {
     
     // when the search button is pressed, look for all of the data entries where the search bar text matches the data
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        drawers = drawers?.filter("title CONTAINS[cd] %@", searchBar.text!).sorted(byKeyPath: "dateCreated", ascending: true)    // search is case and diacritic insensitive
+        allDrawers = allDrawers?.filter("title CONTAINS[cd] %@", searchBar.text!).sorted(byKeyPath: "dateCreated", ascending: true)    // search is case and diacritic insensitive
         tableView.reloadData()
     }
     
@@ -157,5 +168,4 @@ extension DrawerVC: UISearchBarDelegate {
             }
         }
     }
-
 }

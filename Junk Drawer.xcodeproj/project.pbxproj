@@ -12,9 +12,9 @@
 		443583DD2235F2E2002BB949 /* Drawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 443583DC2235F2E2002BB949 /* Drawer.swift */; };
 		443583DF2235F2FF002BB949 /* Tool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 443583DE2235F2FF002BB949 /* Tool.swift */; };
 		443583E12235F32B002BB949 /* TagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 443583E02235F32B002BB949 /* TagCollectionViewCell.swift */; };
-		443583E72235FFB4002BB949 /* DrawerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 443583E62235FFB3002BB949 /* DrawerVC.swift */; };
+		446DE37922382775000CDA19 /* DrawerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 446DE37822382775000CDA19 /* DrawerVC.swift */; };
+		446DE37B22382812000CDA19 /* SwipeCellVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 446DE37A22382812000CDA19 /* SwipeCellVC.swift */; };
 		447CEECD2226274B006D3CC8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 447CEECC2226274B006D3CC8 /* AppDelegate.swift */; };
-		447CEECF2226274B006D3CC8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 447CEECE2226274B006D3CC8 /* ViewController.swift */; };
 		447CEED22226274B006D3CC8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 447CEED02226274B006D3CC8 /* Main.storyboard */; };
 		447CEED42226274D006D3CC8 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 447CEED32226274D006D3CC8 /* Assets.xcassets */; };
 		447CEED72226274D006D3CC8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 447CEED52226274D006D3CC8 /* LaunchScreen.storyboard */; };
@@ -31,10 +31,10 @@
 		443583DC2235F2E2002BB949 /* Drawer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Drawer.swift; sourceTree = "<group>"; };
 		443583DE2235F2FF002BB949 /* Tool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tool.swift; sourceTree = "<group>"; };
 		443583E02235F32B002BB949 /* TagCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCollectionViewCell.swift; sourceTree = "<group>"; };
-		443583E62235FFB3002BB949 /* DrawerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = DrawerVC.swift; path = "/Users/megan/Desktop/Junk-Drawer/Junk Drawer/Controller/DrawerVC.swift"; sourceTree = "<absolute>"; };
+		446DE37822382775000CDA19 /* DrawerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerVC.swift; sourceTree = "<group>"; };
+		446DE37A22382812000CDA19 /* SwipeCellVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SwipeCellVC.swift; path = "Junk Drawer/Controller/SwipeCellVC.swift"; sourceTree = SOURCE_ROOT; };
 		447CEEC92226274B006D3CC8 /* Junk Drawer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Junk Drawer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		447CEECC2226274B006D3CC8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		447CEECE2226274B006D3CC8 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		447CEED12226274B006D3CC8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		447CEED32226274D006D3CC8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		447CEED62226274D006D3CC8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -122,13 +122,13 @@
 		447CEEE022262A34006D3CC8 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				446DE37A22382812000CDA19 /* SwipeCellVC.swift */,
 				447CEECC2226274B006D3CC8 /* AppDelegate.swift */,
-				447CEECE2226274B006D3CC8 /* ViewController.swift */,
 				44F62029222F7B8900264397 /* LoginVC.swift */,
 				44F6202B222F7B9C00264397 /* WelcomeVC.swift */,
 				44F62027222F7B5E00264397 /* RegisterVC.swift */,
 				44F6202D222F7CBC00264397 /* HomeVC.swift */,
-				443583E62235FFB3002BB949 /* DrawerVC.swift */,
+				446DE37822382775000CDA19 /* DrawerVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -290,15 +290,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				447CEECF2226274B006D3CC8 /* ViewController.swift in Sources */,
 				44F6202C222F7B9C00264397 /* WelcomeVC.swift in Sources */,
 				447CEECD2226274B006D3CC8 /* AppDelegate.swift in Sources */,
 				44F6202E222F7CBC00264397 /* HomeVC.swift in Sources */,
 				443583DD2235F2E2002BB949 /* Drawer.swift in Sources */,
 				44F62028222F7B5E00264397 /* RegisterVC.swift in Sources */,
 				443583DF2235F2FF002BB949 /* Tool.swift in Sources */,
+				446DE37922382775000CDA19 /* DrawerVC.swift in Sources */,
 				443583E12235F32B002BB949 /* TagCollectionViewCell.swift in Sources */,
-				443583E72235FFB4002BB949 /* DrawerVC.swift in Sources */,
+				446DE37B22382812000CDA19 /* SwipeCellVC.swift in Sources */,
 				44F6202A222F7B8900264397 /* LoginVC.swift in Sources */,
 				443583DB2235F2B8002BB949 /* Category.swift in Sources */,
 			);

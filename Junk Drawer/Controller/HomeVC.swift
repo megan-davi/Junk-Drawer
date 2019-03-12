@@ -9,32 +9,35 @@
 import UIKit
 import RealmSwift
 
-class HomeVC: UITableViewController {
+class HomeVC: SwipeCellVC {
+    
+    let realm = try! Realm()
+    
+    var allCategories: Results<Category>?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        loadCategories()
+        
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white] // set navbar title to white
         navigationController?.navigationItem.hidesBackButton = true
+        
     }
-    
-    let realm = try! Realm()
-    
-    var categories: Results<Category>?
     
     // MARK: - ⎡ 📝 TABLEVIEW DATASOURCE METHODS ⎦
     // ———————————————————————————————————————————————————————————————————
     
-    // set number of rows in table equal to number of categories OR 1 if number of categories is 0
+    // set number of rows in table equal to number of categories or minimum of 1
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return categories?.count ?? 1    // nil coalescing operator; if categories is nil, return 1
+        return allCategories?.count ?? 1    // if # of categories is nil, return 1
     }
     
-    // create a cell from the SwipeTableVC class
+    // create a cell from the SwipeCellVC class; if # of cells == 1, show no category text
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = super.tableView(tableView, cellForRowAt: indexPath)
         
-        cell.textLabel?.text = categories?[indexPath.row].title ?? "No categories added yet"
+        cell.textLabel?.text = allCategories?[indexPath.row].title ?? "No categories added yet"
         
         return cell
     }
@@ -42,6 +45,7 @@ class HomeVC: UITableViewController {
     // MARK: - ⎡ ☑️ TABLEVIEW DELEGATE METHODS ⎦
     // ———————————————————————————————————————————————————————————————————
     
+    // when a user selects a row, go to that drawer
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         performSegue(withIdentifier: "goToDrawer", sender: self)
     }
@@ -50,8 +54,8 @@ class HomeVC: UITableViewController {
         // add an if statment for multiple VCs
         let destinationVC = segue.destination as! DrawerVC
         if let indexPath = tableView.indexPathForSelectedRow {
-            destinationVC.selectedCategory = categories?[indexPath.row]
-            // go create selected category in todolistVC
+            destinationVC.selectedCategory = allCategories?[indexPath.row]
+            // go create selected category in drawerVC
         }
     }
     
@@ -65,8 +69,7 @@ class HomeVC: UITableViewController {
         
         let action = UIAlertAction(title: "Add", style: .default) { (action) in
             let newCategory = Category()
-            newCategory.name = textField.text!
-            newCategory.color = UIColor.randomFlat.hexValue()  // from the chameleon framework
+            newCategory.title = textField.text!
             self.save(category: newCategory)
         }
         
@@ -91,7 +94,7 @@ class HomeVC: UITableViewController {
     
     // 👀 READ :: retrieve categories from realm
     func loadCategories() {
-        categories = realm.objects(Category.self)
+        allCategories = realm.objects(Category.self)
         tableView.reloadData()
     }
     
@@ -99,7 +102,7 @@ class HomeVC: UITableViewController {
     override func updateModel(at indexPath: IndexPath) {
         //super.updateModel(at: indexPath)  // include this code if you want to code that is in the overridden class to run as well
         
-        if let categoryForDeletion = self.categories?[indexPath.row] {
+        if let categoryForDeletion = self.allCategories?[indexPath.row] {
             do {
                 try self.realm.write {
                     self.realm.delete(categoryForDeletion)
@@ -108,5 +111,6 @@ class HomeVC: UITableViewController {
                 print("Error deleting category: \(error)")
             }
         }
+    }
 
 }
