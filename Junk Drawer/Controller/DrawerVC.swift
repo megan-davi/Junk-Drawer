@@ -118,7 +118,7 @@ class DrawerVC: SwipeCellVC {
     
     // 👀 READ :: retrieve drawers from realm
     func loadDrawers() {
-        allDrawers = selectedCategory?.drawers.sorted(byKeyPath: "title", ascending: true)
+        allDrawers = selectedCategory?.drawers.sorted(byKeyPath: "title", ascending: false)
         tableView.reloadData()
     }
     

@@ -13,8 +13,8 @@ class CollectionViewCell: UICollectionViewCell {
     @IBOutlet var categoryImage: UIImageView!
     @IBOutlet var categoryLabel: UILabel!
     
-    func displayContent(image: UIImage, title: String) {
-        categoryImage.image = image
+    func displayContent(title: String) {
+        //categoryImage.image = image
         categoryLabel.text = title
     }
     

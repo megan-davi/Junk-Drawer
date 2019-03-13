@@ -11,9 +11,9 @@ import RealmSwift
 
 class Category: Object {
     @objc dynamic var title = ""
+    @objc dynamic var image = ""   // image location, not actual image
 
     // @objc dynamic var tint = ??
-    // @objc dynamic var image = ??
     
     @objc dynamic var drawerBoolean = true
     let drawers = List<Drawer>()  // the children of this class are an array of type Drawer

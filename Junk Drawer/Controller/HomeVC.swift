@@ -32,14 +32,14 @@ class HomeVC: UICollectionViewController {
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         navigationController?.navigationItem.hidesBackButton = true
         
-        let sectionInsets = UIEdgeInsets(top: 50.0, left: 20.0, bottom: 50.0, right: 20.0)
+        //let sectionInsets = UIEdgeInsets(top: 50.0, left: 20.0, bottom: 50.0, right: 20.0)
         
     }
     
     // MARK: - ⎡ 📝 COLLECTION VIEW DATASOURCE METHODS ⎦
     // ———————————————————————————————————————————————————————————————————
     
-    
+    // show a single collection view
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
@@ -55,6 +55,20 @@ class HomeVC: UICollectionViewController {
         
         _ = allCategories?[indexPath.row].title ?? "No categories added yet"
         //cell.?.text = allCategories?[indexPath.item].title ?? "No categories added yet"
+        
+        
+        func loadImageFromPath(_ path: NSString) -> UIImage? {
+            
+            let image = UIImage(contentsOfFile: path as String)
+            
+            if image == nil {
+                return UIImage()
+            } else{
+                return image
+            }
+        }
+        // add image here later
+        cell.displayContent(title: allCategories?[indexPath.row].title ?? "Unnamed category")
         
         return cell
     }
