@@ -18,9 +18,12 @@ class HomeVC: SwipeCellVC {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // populate table view with all categories
         loadCategories()
         
-        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white] // set navbar title to white
+        // change navigation bar and table view appearances
+        tableView.rowHeight = 80
+        navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         navigationController?.navigationItem.hidesBackButton = true
         
     }
@@ -50,14 +53,18 @@ class HomeVC: SwipeCellVC {
         performSegue(withIdentifier: "goToDrawer", sender: self)
     }
     
+    // go to DrawerVC or EditCategoryVC based on user selection
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // add an if statment for multiple VCs
-        let destinationVC = segue.destination as! DrawerVC
-        if let indexPath = tableView.indexPathForSelectedRow {
-            destinationVC.selectedCategory = allCategories?[indexPath.row]
-            // go create selected category in drawerVC
+        if segue.identifier == "goToDrawer" {
+            let destinationVC = segue.destination as! DrawerVC       // go to DrawerVC
+            if let indexPath = tableView.indexPathForSelectedRow {   //
+                destinationVC.selectedCategory = allCategories?[indexPath.row]
+            }
+        } else if segue.identifier == "goToEditCategory" {
+            _ = segue.destination as! EditCategoryVC               // go to EditCategoryVC
         }
     }
+
     
     // MARK: - ⎡ ⭐️ CRUD OPERATIONS ⎦
     // ———————————————————————————————————————————————————————————————————
@@ -78,6 +85,7 @@ class HomeVC: SwipeCellVC {
             textField = field
             textField.placeholder = "Add a new category"
         }
+        
         present(alert, animated: true, completion: nil)
     }
     

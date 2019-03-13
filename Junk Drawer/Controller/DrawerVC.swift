@@ -30,9 +30,10 @@ class DrawerVC: SwipeCellVC {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.separatorStyle = .none
+        tableView.rowHeight = 80
         
-        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))  // reveal realm file location
+        // reveal realm file location
+        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
     }
     
     // appears after viewDidLoad()

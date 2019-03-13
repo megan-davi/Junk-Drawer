@@ -27,23 +27,25 @@ class SwipeCellVC: UITableViewController, SwipeTableViewCellDelegate {
     // MARK: - ⎡ ⭐️ CRUD OPERATIONS ⎦
     // ———————————————————————————————————————————————————————————————————
     
-    // ❌ DELETE :: user swipes left to reveal the swipe cell and when the delete button is pressed, the realm category is deleted and table view refreshed
+    // ✏️ EDIT :: user swipes left to reveal the swipe cell and when the edit button is pressed, user is sent to EditCategoryVC
     func tableView(_ tableView: UITableView, editActionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> [SwipeAction]? {
         guard orientation == .right else {return nil}
         
-        let deleteAction = SwipeAction(style: .destructive, title: "Delete") { (action, indexPath) in
-            print("Delete Cell")
-            self.updateModel(at: indexPath)
+        let editAction = SwipeAction(style: .default, title: "Edit") { (action, indexPath) in
+            //self.updateModel(at: indexPath)
+            self.performSegue(withIdentifier: "goToEditCategory", sender: self)
         }
         
         // customize appearance
-        deleteAction.image = UIImage(named: "delete-icon")
-        return [deleteAction]
+        editAction.image = UIImage(named: "pencil")
+        editAction.backgroundColor = UIColor(named: "customBlue")
+        editAction.textColor = UIColor(named: "customBlack")
+        return [editAction]
     }
     
     func tableView(_ tableView: UITableView, editActionsOptionsForRowAt indexPath: IndexPath, for orientation: SwipeActionsOrientation) -> SwipeTableOptions {
         var options = SwipeTableOptions()
-        options.expansionStyle = .destructive
+        options.expansionStyle = .none
         return options
     }
     

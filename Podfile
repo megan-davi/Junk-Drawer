@@ -11,5 +11,6 @@ target 'Junk Drawer' do
     pod 'SVProgressHUD'
     pod 'RealmSwift'
     pod 'SwipeCellKit'
+    pod 'ColorPickerSlider'
 
 end
