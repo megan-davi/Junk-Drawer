@@ -11,14 +11,16 @@
 		443583DB2235F2B8002BB949 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 443583DA2235F2B8002BB949 /* Category.swift */; };
 		443583DD2235F2E2002BB949 /* Drawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 443583DC2235F2E2002BB949 /* Drawer.swift */; };
 		443583DF2235F2FF002BB949 /* Tool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 443583DE2235F2FF002BB949 /* Tool.swift */; };
-		443583E12235F32B002BB949 /* TagCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 443583E02235F32B002BB949 /* TagCollectionViewCell.swift */; };
+		443583E12235F32B002BB949 /* Tag.swift in Sources */ = {isa = PBXBuildFile; fileRef = 443583E02235F32B002BB949 /* Tag.swift */; };
 		446DE37922382775000CDA19 /* DrawerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 446DE37822382775000CDA19 /* DrawerVC.swift */; };
 		446DE37B22382812000CDA19 /* SwipeCellVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 446DE37A22382812000CDA19 /* SwipeCellVC.swift */; };
 		446DE37F22386C43000CDA19 /* EditCategoryVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 446DE37E22386C43000CDA19 /* EditCategoryVC.swift */; };
 		446DE381223881AC000CDA19 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 446DE380223881AC000CDA19 /* Assets.xcassets */; };
+		446DE38522389C7B000CDA19 /* customCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 446DE38422389C7B000CDA19 /* customCell.xib */; };
 		447CEECD2226274B006D3CC8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 447CEECC2226274B006D3CC8 /* AppDelegate.swift */; };
 		447CEED22226274B006D3CC8 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 447CEED02226274B006D3CC8 /* Main.storyboard */; };
 		447CEED72226274D006D3CC8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 447CEED52226274D006D3CC8 /* LaunchScreen.storyboard */; };
+		44CB1C0222399BF700480582 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44CB1C0122399BF600480582 /* CollectionViewCell.swift */; };
 		44F62028222F7B5E00264397 /* RegisterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F62027222F7B5E00264397 /* RegisterVC.swift */; };
 		44F6202A222F7B8900264397 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F62029222F7B8900264397 /* LoginVC.swift */; };
 		44F6202C222F7B9C00264397 /* WelcomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F6202B222F7B9C00264397 /* WelcomeVC.swift */; };
@@ -31,16 +33,18 @@
 		443583DA2235F2B8002BB949 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		443583DC2235F2E2002BB949 /* Drawer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Drawer.swift; sourceTree = "<group>"; };
 		443583DE2235F2FF002BB949 /* Tool.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tool.swift; sourceTree = "<group>"; };
-		443583E02235F32B002BB949 /* TagCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCollectionViewCell.swift; sourceTree = "<group>"; };
+		443583E02235F32B002BB949 /* Tag.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tag.swift; sourceTree = "<group>"; };
 		446DE37822382775000CDA19 /* DrawerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawerVC.swift; sourceTree = "<group>"; };
 		446DE37A22382812000CDA19 /* SwipeCellVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SwipeCellVC.swift; path = "Junk Drawer/Controller/SwipeCellVC.swift"; sourceTree = SOURCE_ROOT; };
 		446DE37E22386C43000CDA19 /* EditCategoryVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditCategoryVC.swift; sourceTree = "<group>"; };
 		446DE380223881AC000CDA19 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		446DE38422389C7B000CDA19 /* customCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = customCell.xib; path = "Junk Drawer/Supporting Files/customCell.xib"; sourceTree = SOURCE_ROOT; };
 		447CEEC92226274B006D3CC8 /* Junk Drawer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Junk Drawer.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		447CEECC2226274B006D3CC8 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		447CEED12226274B006D3CC8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		447CEED62226274D006D3CC8 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		447CEED82226274D006D3CC8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		44CB1C0122399BF600480582 /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CollectionViewCell.swift; path = "Junk Drawer/Controller/CollectionViewCell.swift"; sourceTree = SOURCE_ROOT; };
 		44F62027222F7B5E00264397 /* RegisterVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterVC.swift; sourceTree = "<group>"; };
 		44F62029222F7B8900264397 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 		44F6202B222F7B9C00264397 /* WelcomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeVC.swift; sourceTree = "<group>"; };
@@ -77,7 +81,7 @@
 				443583DA2235F2B8002BB949 /* Category.swift */,
 				443583DC2235F2E2002BB949 /* Drawer.swift */,
 				443583DE2235F2FF002BB949 /* Tool.swift */,
-				443583E02235F32B002BB949 /* TagCollectionViewCell.swift */,
+				443583E02235F32B002BB949 /* Tag.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -132,6 +136,7 @@
 				44F6202D222F7CBC00264397 /* HomeVC.swift */,
 				446DE37E22386C43000CDA19 /* EditCategoryVC.swift */,
 				446DE37822382775000CDA19 /* DrawerVC.swift */,
+				44CB1C0122399BF600480582 /* CollectionViewCell.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -139,6 +144,7 @@
 		447CEEE122262A40006D3CC8 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				446DE38422389C7B000CDA19 /* customCell.xib */,
 				446DE380223881AC000CDA19 /* Assets.xcassets */,
 				443583D22235E94B002BB949 /* GoogleService-Info.plist */,
 			);
@@ -218,6 +224,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				446DE38522389C7B000CDA19 /* customCell.xib in Resources */,
 				447CEED72226274D006D3CC8 /* LaunchScreen.storyboard in Resources */,
 				443583D32235E94B002BB949 /* GoogleService-Info.plist in Resources */,
 				446DE381223881AC000CDA19 /* Assets.xcassets in Resources */,
@@ -300,7 +307,8 @@
 				44F62028222F7B5E00264397 /* RegisterVC.swift in Sources */,
 				443583DF2235F2FF002BB949 /* Tool.swift in Sources */,
 				446DE37922382775000CDA19 /* DrawerVC.swift in Sources */,
-				443583E12235F32B002BB949 /* TagCollectionViewCell.swift in Sources */,
+				443583E12235F32B002BB949 /* Tag.swift in Sources */,
+				44CB1C0222399BF700480582 /* CollectionViewCell.swift in Sources */,
 				446DE37F22386C43000CDA19 /* EditCategoryVC.swift in Sources */,
 				446DE37B22382812000CDA19 /* SwipeCellVC.swift in Sources */,
 				44F6202A222F7B8900264397 /* LoginVC.swift in Sources */,
