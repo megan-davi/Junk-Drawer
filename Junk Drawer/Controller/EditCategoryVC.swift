@@ -7,8 +7,23 @@
 //
 
 import UIKit
+import ColorPicker
 
-class EditCategoryVC: UIViewController {
+class EditCategoryVC: UIViewController, ColorPickerDelegate {
+    
+    @IBOutlet var colorPickerView: ColorPickerListView!
+    @IBOutlet var colorView: UIView!
+    @IBOutlet var titleTextField: UITextField!
+    @IBOutlet var drawerSwitch: UISwitch!
+    
+    func colorPicker(_ colorPicker: ColorPickerListView, selectedColor: String) {
+        colorView.backgroundColor = UIColor.colorWithHexString(selectedColor)
+    }
+    
+    func colorPicker(_ colorPicker: ColorPickerListView, deselectedColor: String) {
+        colorView.backgroundColor = UIColor.white
+    }
+    
     
     @IBOutlet var saveButton: UIButton!
     
@@ -17,8 +32,10 @@ class EditCategoryVC: UIViewController {
 
         navigationController?.navigationItem.hidesBackButton = true
         saveButton.layer.cornerRadius = 4
+        
+     
+        
     }
-    
 
     @IBAction func saveButton(_ sender: Any) {
         

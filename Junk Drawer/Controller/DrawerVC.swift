@@ -33,7 +33,7 @@ class DrawerVC: SwipeCellVC {
         tableView.rowHeight = 80
         
         // reveal realm file location
-        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
+        //print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
     }
     
     // appears after viewDidLoad()

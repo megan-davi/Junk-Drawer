@@ -11,14 +11,30 @@ import RealmSwift
 
 private let reuseIdentifier = "categoryCell"
 
-class HomeVC: UICollectionViewController {
+
+
+class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
     
-    let realm = try! Realm()
+    // MARK: - ⎡ 🌎 GLOBAL VARIABLES ⎦
+    // ———————————————————————————————————————————————————————————————————
     
     // pull categories from Realm class
+    let realm = try! Realm()
     var allCategories: Results<Category>?
     
-    //@IBOutlet var myCollectionView: UICollectionView!
+    // storyboard connections
+    @IBOutlet var categoryImage: UIImageView!
+    @IBOutlet var categoryCollectionView: UICollectionView!
+    @IBOutlet var categoryTitle: UILabel!
+    @IBOutlet var doneButton: UIButton!
+    @IBOutlet var deleteButton: UIButton!
+    
+    // cell animated movement for long press variable
+    var isAnimate: Bool! = true
+    
+    
+    // MARK: - ⎡ 🎂 APP LIFECYCLE METHODS ⎦
+    // ———————————————————————————————————————————————————————————————————
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,7 +42,7 @@ class HomeVC: UICollectionViewController {
         // populate table view with all categories
         loadCategories()
         
-        self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        //self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         
         // change navigation bar and collection view appearances
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
@@ -34,50 +50,118 @@ class HomeVC: UICollectionViewController {
         
         //let sectionInsets = UIEdgeInsets(top: 50.0, left: 20.0, bottom: 50.0, right: 20.0)
         
+        // allow VC to recognize long presses
+        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.longTap(_:)))
+        categoryCollectionView.addGestureRecognizer(longPressGesture)
+        doneButton.isHidden = true
+        
     }
+    
+    // MARK: - ⎡ 👆 LONG PRESS METHODS ⎦
+    // ———————————————————————————————————————————————————————————————————
+    
+    @objc func longTap(_ gesture: UIGestureRecognizer){
+        
+        switch(gesture.state) {
+        case .began:
+            guard let selectedIndexPath = categoryCollectionView.indexPathForItem(at: gesture.location(in: categoryCollectionView)) else {
+                return
+            }
+            categoryCollectionView.beginInteractiveMovementForItem(at: selectedIndexPath)
+        case .changed:
+            categoryCollectionView.updateInteractiveMovementTargetPosition(gesture.location(in: gesture.view!))
+        case .ended:
+            categoryCollectionView.endInteractiveMovement()
+            doneButton.isHidden = false
+            longPressedEnabled = true
+            self.categoryCollectionView.reloadData()
+        default:
+            categoryCollectionView.cancelInteractiveMovement()
+        }
+    }
+    
+    func startAnimate() {
+        let shakeAnimation = CABasicAnimation(keyPath: "transform.rotation")
+        shakeAnimation.duration = 0.05
+        shakeAnimation.repeatCount = 4
+        shakeAnimation.autoreverses = true
+        shakeAnimation.duration = 0.2
+        shakeAnimation.repeatCount = 99999
+        
+        let startAngle: Float = (-2) * 3.14159/180
+        let stopAngle = -startAngle
+        
+        shakeAnimation.fromValue = NSNumber(value: startAngle as Float)
+        shakeAnimation.toValue = NSNumber(value: 3 * stopAngle as Float)
+        shakeAnimation.autoreverses = true
+        shakeAnimation.timeOffset = 290 * drand48()
+        
+        let layer: CALayer = self.layer
+        layer.add(shakeAnimation, forKey:"animate")
+        removeBtn.isHidden = false
+        isAnimate = true
+    }
+
     
     // MARK: - ⎡ 📝 COLLECTION VIEW DATASOURCE METHODS ⎦
     // ———————————————————————————————————————————————————————————————————
     
     // show a single collection view
-    override func numberOfSections(in collectionView: UICollectionView) -> Int {
+    func numberOfSections(in collectionView: UICollectionView) -> Int {
         return 1
     }
     
     // set number of cells in collection equal to number of categories or minimum of 1
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return allCategories?.count ?? 1    // if # of categories is nil, return 1
     }
     
-    // create a cell from the SwipeCellVC class; if # of cells == 1, show no category text
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+
+    // create a cell from the CollectionViewCell class; if # of cells == 1, show no category text
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionViewCell", for: indexPath) as! CollectionViewCell
         
         _ = allCategories?[indexPath.row].title ?? "No categories added yet"
+        let cellImage = allCategories?[indexPath.row].image ?? "garage"
         //cell.?.text = allCategories?[indexPath.item].title ?? "No categories added yet"
         
+        cell.backgroundColor = UIColor.clear
         
-        func loadImageFromPath(_ path: NSString) -> UIImage? {
-            
-            let image = UIImage(contentsOfFile: path as String)
-            
-            if image == nil {
-                return UIImage()
-            } else{
-                return image
-            }
+        categoryImage.image = UIImage(named: cellImage)
+        
+        cell.removeBtn.addTarget(self, action: #selector(removeBtnClick(_:)), for: .touchUpInside)
+        
+        if longPressedEnabled   {
+            cell.startAnimate()
+        } else {
+            cell.stopAnimate()
         }
+        
+//        func loadImageFromPath(_ path: NSString) -> UIImage? {
+//
+//            let image = UIImage(contentsOfFile: path as String)
+//
+//            if image == nil {
+//                return UIImage()
+//            } else{
+//                return image
+//            }
+//        }
         // add image here later
-        cell.displayContent(title: allCategories?[indexPath.row].title ?? "Unnamed category")
+        //cell.displayContent(title: allCategories?[indexPath.row].title ?? "Unnamed category")
         
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: UIScreen.main.bounds.size.width/4 - 20, height: UIScreen.main.bounds.size.width/4 - 20)
     }
     
     // MARK: - ⎡ ☑️ COLLECTION VIEW DELEGATE METHODS ⎦
     // ———————————————————————————————————————————————————————————————————
     
     // when a user selects a cell, go to that drawer
-    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         performSegue(withIdentifier: "goToDrawer", sender: self)
     }
 
@@ -85,7 +169,7 @@ class HomeVC: UICollectionViewController {
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "goToDrawer" {
             let destinationVC = segue.destination as! DrawerVC    // go to DrawerVC
-            if let indexPath = collectionView?.indexPathsForSelectedItems?.first {
+            if let indexPath = categoryCollectionView?.indexPathsForSelectedItems?.first {
                 destinationVC.selectedCategory = allCategories?[indexPath.row]
             }
         } else if segue.identifier == "goToEditCategory" {
@@ -130,13 +214,13 @@ class HomeVC: UICollectionViewController {
         } catch {
             print("Error saving category \(error)")
         }
-        collectionView.reloadData()
+        categoryCollectionView.reloadData()
     }
     
     // 👀 READ :: retrieve categories from realm
     func loadCategories() {
         allCategories = realm.objects(Category.self)
-        collectionView.reloadData()
+        categoryCollectionView.reloadData()
     }
     
     // ❌ DELETE :: user swipes left to reveal the swipe cell and when the delete button is pressed, the realm category is deleted and table view refreshed

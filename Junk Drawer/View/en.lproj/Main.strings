@@ -1,0 +1,75 @@
+
+/* Class = "UIButton"; normalTitle = "Register"; ObjectID = "3Ae-XW-QUi"; */
+"3Ae-XW-QUi.normalTitle" = "Register";
+
+/* Class = "UIViewController"; title = "Edit Category"; ObjectID = "6pr-KE-1Ul"; */
+"6pr-KE-1Ul.title" = "Edit Category";
+
+/* Class = "UICollectionViewController"; title = "Home"; ObjectID = "78Z-KY-og0"; */
+"78Z-KY-og0.title" = "Home";
+
+/* Class = "UINavigationItem"; title = "Categories"; ObjectID = "92J-Jg-fPf"; */
+"92J-Jg-fPf.title" = "Categories";
+
+/* Class = "UIViewController"; title = "Welcome"; ObjectID = "BYZ-38-t0r"; */
+"BYZ-38-t0r.title" = "Welcome";
+
+/* Class = "UIButton"; normalTitle = "Save"; ObjectID = "DT2-mU-6Lt"; */
+"DT2-mU-6Lt.normalTitle" = "Save";
+
+/* Class = "UILabel"; text = "Label"; ObjectID = "FZw-ha-wK2"; */
+"FZw-ha-wK2.text" = "Label";
+
+/* Class = "UITableViewController"; title = "Drawer"; ObjectID = "GK2-1Y-L36"; */
+"GK2-1Y-L36.title" = "Drawer";
+
+/* Class = "UILabel"; text = "Title"; ObjectID = "Gwo-3f-0O6"; */
+"Gwo-3f-0O6.text" = "Title";
+
+/* Class = "UILabel"; text = "Contains Drawers"; ObjectID = "Kcs-Ei-Yda"; */
+"Kcs-Ei-Yda.text" = "Contains Drawers";
+
+/* Class = "UIButton"; normalTitle = "Delete Category"; ObjectID = "LuN-dJ-o8N"; */
+"LuN-dJ-o8N.normalTitle" = "Delete Category";
+
+/* Class = "UIViewController"; title = "Log In"; ObjectID = "Pnr-OM-f5g"; */
+"Pnr-OM-f5g.title" = "Log In";
+
+/* Class = "UIViewController"; title = "Register"; ObjectID = "UrT-gH-z63"; */
+"UrT-gH-z63.title" = "Register";
+
+/* Class = "UIButton"; normalTitle = "Log In"; ObjectID = "cM3-6K-KEi"; */
+"cM3-6K-KEi.normalTitle" = "Log In";
+
+/* Class = "UIButton"; normalTitle = "Log In"; ObjectID = "fCu-h4-c3L"; */
+"fCu-h4-c3L.normalTitle" = "Log In";
+
+/* Class = "UIButton"; normalTitle = "Register"; ObjectID = "gYD-bM-EGb"; */
+"gYD-bM-EGb.normalTitle" = "Register";
+
+/* Class = "UILabel"; text = "Background Menu Color"; ObjectID = "hR1-Hd-rwd"; */
+"hR1-Hd-rwd.text" = "Background Menu Color";
+
+/* Class = "UINavigationItem"; title = "Welcome "; ObjectID = "l85-wr-H8W"; */
+"l85-wr-H8W.title" = "Welcome ";
+
+/* Class = "UINavigationItem"; title = "Title"; ObjectID = "mgK-Px-Uc7"; */
+"mgK-Px-Uc7.title" = "Title";
+
+/* Class = "UITextField"; placeholder = "Password"; ObjectID = "miU-su-Fj7"; */
+"miU-su-Fj7.placeholder" = "Password";
+
+/* Class = "UITextField"; placeholder = "Email"; ObjectID = "olC-ad-QXA"; */
+"olC-ad-QXA.placeholder" = "Email";
+
+/* Class = "UINavigationController"; title = "Navigation"; ObjectID = "p4u-F3-ine"; */
+"p4u-F3-ine.title" = "Navigation";
+
+/* Class = "UITextField"; placeholder = "Password"; ObjectID = "rUl-Le-rsV"; */
+"rUl-Le-rsV.placeholder" = "Password";
+
+/* Class = "UITabBarItem"; title = "Item"; ObjectID = "vdr-7h-8vf"; */
+"vdr-7h-8vf.title" = "Item";
+
+/* Class = "UITextField"; placeholder = "Email"; ObjectID = "x5n-6I-u4D"; */
+"x5n-6I-u4D.placeholder" = "Email";

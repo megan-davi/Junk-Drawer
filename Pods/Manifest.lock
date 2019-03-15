@@ -1,4 +1,5 @@
 PODS:
+  - ColorPicker (0.1.2)
   - Firebase (5.16.0):
     - Firebase/Core (= 5.16.0)
   - Firebase/Auth (5.16.0):
@@ -77,6 +78,7 @@ PODS:
   - SwipeCellKit (2.5.1)
 
 DEPENDENCIES:
+  - ColorPicker (~> 0.1)
   - Firebase
   - Firebase/Auth
   - Firebase/Database
@@ -86,6 +88,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - ColorPicker
     - Firebase
     - FirebaseAnalytics
     - FirebaseAuth
@@ -104,6 +107,7 @@ SPEC REPOS:
     - SwipeCellKit
 
 SPEC CHECKSUMS:
+  ColorPicker: 4c9509876f05e41478bb8ecca0046ef1b8f5c84f
   Firebase: 749a8ff4962f9d8c79dda1966de20f6f77583d67
   FirebaseAnalytics: d35d47c03c50c73c14a7fd31463c5775843e78a9
   FirebaseAuth: c9b3ff063c223d2841d97240af547ce511bce19a
@@ -121,6 +125,6 @@ SPEC CHECKSUMS:
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   SwipeCellKit: 30fd6a4f8a8b8ac864ea389c8b4c8bac5ba5471a
 
-PODFILE CHECKSUM: a88c959d76a5faa98abdc6101c870e140d49c41e
+PODFILE CHECKSUM: b276c81feb8d43e627ea55f1e21555711170d113
 
 COCOAPODS: 1.5.3
