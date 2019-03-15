@@ -9,10 +9,6 @@
 import UIKit
 import RealmSwift
 
-private let reuseIdentifier = "categoryCell"
-
-
-
 class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
     
     // MARK: - ⎡ 🌎 GLOBAL VARIABLES ⎦
@@ -23,14 +19,10 @@ class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
     var allCategories: Results<Category>?
     
     // storyboard connections
-    @IBOutlet var categoryImage: UIImageView!
     @IBOutlet var categoryCollectionView: UICollectionView!
-    @IBOutlet var categoryTitle: UILabel!
     @IBOutlet var doneButton: UIButton!
-    @IBOutlet var deleteButton: UIButton!
+    @IBOutlet var viewForLayer: UIView!
     
-    // cell animated movement for long press variable
-    var isAnimate: Bool! = true
     
     
     // MARK: - ⎡ 🎂 APP LIFECYCLE METHODS ⎦
@@ -50,58 +42,26 @@ class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
         
         //let sectionInsets = UIEdgeInsets(top: 50.0, left: 20.0, bottom: 50.0, right: 20.0)
         
-        // allow VC to recognize long presses
-        let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(self.longTap(_:)))
-        categoryCollectionView.addGestureRecognizer(longPressGesture)
-        doneButton.isHidden = true
-        
     }
     
-    // MARK: - ⎡ 👆 LONG PRESS METHODS ⎦
-    // ———————————————————————————————————————————————————————————————————
+ 
     
-    @objc func longTap(_ gesture: UIGestureRecognizer){
+    // delete button clicked ∴ remove the category from realm and refresh the collection view
+    @IBAction func deleteButtonClicked(_ sender: Any) {
         
-        switch(gesture.state) {
-        case .began:
-            guard let selectedIndexPath = categoryCollectionView.indexPathForItem(at: gesture.location(in: categoryCollectionView)) else {
-                return
-            }
-            categoryCollectionView.beginInteractiveMovementForItem(at: selectedIndexPath)
-        case .changed:
-            categoryCollectionView.updateInteractiveMovementTargetPosition(gesture.location(in: gesture.view!))
-        case .ended:
-            categoryCollectionView.endInteractiveMovement()
-            doneButton.isHidden = false
-            longPressedEnabled = true
-            self.categoryCollectionView.reloadData()
-        default:
-            categoryCollectionView.cancelInteractiveMovement()
-        }
-    }
-    
-    func startAnimate() {
-        let shakeAnimation = CABasicAnimation(keyPath: "transform.rotation")
-        shakeAnimation.duration = 0.05
-        shakeAnimation.repeatCount = 4
-        shakeAnimation.autoreverses = true
-        shakeAnimation.duration = 0.2
-        shakeAnimation.repeatCount = 99999
-        
-        let startAngle: Float = (-2) * 3.14159/180
-        let stopAngle = -startAngle
-        
-        shakeAnimation.fromValue = NSNumber(value: startAngle as Float)
-        shakeAnimation.toValue = NSNumber(value: 3 * stopAngle as Float)
-        shakeAnimation.autoreverses = true
-        shakeAnimation.timeOffset = 290 * drand48()
-        
-        let layer: CALayer = self.layer
-        layer.add(shakeAnimation, forKey:"animate")
-        removeBtn.isHidden = false
-        isAnimate = true
+        //updateModel(at: hitIndex!)///////////////////???
+       // self.imgArr.remove(at: (hitIndex?.row)!)
+        self.categoryCollectionView.reloadData()
     }
 
+
+    
+//    @IBAction func doneButtonClicked(_ sender: Any) {
+//            //disable the shake and hide done button
+//            doneButton.isHidden = true
+//
+//            self.categoryCollectionView.reloadData()
+//    }
     
     // MARK: - ⎡ 📝 COLLECTION VIEW DATASOURCE METHODS ⎦
     // ———————————————————————————————————————————————————————————————————
@@ -123,19 +83,13 @@ class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
         
         _ = allCategories?[indexPath.row].title ?? "No categories added yet"
         let cellImage = allCategories?[indexPath.row].image ?? "garage"
+        
+        return cell
+        
+    }
         //cell.?.text = allCategories?[indexPath.item].title ?? "No categories added yet"
         
-        cell.backgroundColor = UIColor.clear
         
-        categoryImage.image = UIImage(named: cellImage)
-        
-        cell.removeBtn.addTarget(self, action: #selector(removeBtnClick(_:)), for: .touchUpInside)
-        
-        if longPressedEnabled   {
-            cell.startAnimate()
-        } else {
-            cell.stopAnimate()
-        }
         
 //        func loadImageFromPath(_ path: NSString) -> UIImage? {
 //
@@ -150,8 +104,7 @@ class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
         // add image here later
         //cell.displayContent(title: allCategories?[indexPath.row].title ?? "Unnamed category")
         
-        return cell
-    }
+        
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         return CGSize(width: UIScreen.main.bounds.size.width/4 - 20, height: UIScreen.main.bounds.size.width/4 - 20)
@@ -160,7 +113,7 @@ class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
     // MARK: - ⎡ ☑️ COLLECTION VIEW DELEGATE METHODS ⎦
     // ———————————————————————————————————————————————————————————————————
     
-    // when a user selects a cell, go to that drawer
+    // user has selected a view ∴ segue to that drawer
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         performSegue(withIdentifier: "goToDrawer", sender: self)
     }
@@ -186,7 +139,7 @@ class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
     // MARK: - ⎡ ⭐️ CRUD OPERATIONS ⎦
     // ———————————————————————————————————————————————————————————————————
     
-    // ⭐️ CREATE :: generate alert with a text field, save category to realm, and refresh table view
+    // add button pressed ∴ generate an alert and save new category with title to realm
     @IBAction func addButtonPressed(_ sender: Any) {
         var textField = UITextField()
         let alert = UIAlertController(title: "Add New Category", message: "", preferredStyle: .alert)
@@ -237,5 +190,4 @@ class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
             }
         }
     }
-
 }

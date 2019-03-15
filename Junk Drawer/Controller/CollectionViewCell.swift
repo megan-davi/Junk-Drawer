@@ -10,14 +10,17 @@ import UIKit
 
 class CollectionViewCell: UICollectionViewCell {
     
-    //@IBOutlet var categoryImage: UIImageView!
-   // @IBOutlet var categoryLabel: UILabel!
-    
+    @IBOutlet var categoryImage: UIImageView!
+    @IBOutlet var categoryLabel: UILabel!
+    @IBOutlet var deleteButton: UIButton!
     
     
 //    func displayContent(title: String) {
 //        //categoryImage.image = image
 //        categoryLabel.text = title
-    }
+ //   }
+    
+    
+    
     
 }

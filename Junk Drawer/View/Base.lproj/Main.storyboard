@@ -336,7 +336,7 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="collectionViewCell" id="ZvQ-QV-gqr">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="collectionViewCell" id="ZvQ-QV-gqr" customClass="CollectionViewCell" customModule="Junk_Drawer" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
@@ -358,9 +358,17 @@
                                                     <rect key="frame" x="110" y="0.0" width="40" height="40"/>
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <state key="normal" backgroundImage="Delete"/>
+                                                    <connections>
+                                                        <action selector="deleteButtonClicked:" destination="U9P-nb-IaX" eventType="touchUpInside" id="AfI-j8-0BE"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                         </view>
+                                        <connections>
+                                            <outlet property="categoryImage" destination="HgY-m9-8TS" id="GGS-Q1-DNy"/>
+                                            <outlet property="categoryLabel" destination="hlX-u0-sTd" id="eoT-7g-F52"/>
+                                            <outlet property="deleteButton" destination="TYm-0c-edJ" id="OAh-6Z-pDM"/>
+                                        </connections>
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
@@ -372,6 +380,10 @@
                                 <state key="normal" title="Done">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
+                                <connections>
+                                    <action selector="deleteButtonClicked:" destination="U9P-nb-IaX" eventType="touchUpInside" id="f2S-Bt-Qn5"/>
+                                    <action selector="doneButtonClicked:" destination="U9P-nb-IaX" eventType="touchUpInside" id="bYo-0A-0xZ"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -383,7 +395,7 @@
                             <barButtonItem style="plain" systemItem="camera" id="ssK-Vy-r9s"/>
                             <barButtonItem style="plain" systemItem="add" id="8di-XL-rQL">
                                 <connections>
-                                    <action selector="addButtonPressed:" destination="U9P-nb-IaX" id="lxG-yG-m4g"/>
+                                    <action selector="addButtonPressed:" destination="U9P-nb-IaX" id="TFh-q9-9Jl"/>
                                 </connections>
                             </barButtonItem>
                         </rightBarButtonItems>
@@ -391,10 +403,8 @@
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="categoryCollectionView" destination="rsP-Fs-Okk" id="mp9-ic-5k8"/>
-                        <outlet property="categoryImage" destination="HgY-m9-8TS" id="5M2-vL-S7j"/>
-                        <outlet property="categoryTitle" destination="hlX-u0-sTd" id="mFb-8d-l0i"/>
-                        <outlet property="deleteButton" destination="TYm-0c-edJ" id="4J6-ws-TNB"/>
                         <outlet property="doneButton" destination="8XI-Em-Xrg" id="ang-ZM-SIo"/>
+                        <outlet property="viewForLayer" destination="tIB-i5-fEz" id="r8w-rO-VYU"/>
                         <segue destination="GK2-1Y-L36" kind="show" identifier="goToDrawer" id="l87-hz-lxv"/>
                         <segue destination="6pr-KE-1Ul" kind="show" identifier="goToEditCategory" id="Rb0-A8-i5s"/>
                     </connections>
