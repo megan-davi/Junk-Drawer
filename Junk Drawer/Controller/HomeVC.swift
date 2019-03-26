@@ -9,7 +9,7 @@
 import UIKit
 import RealmSwift
 
-class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate {
+class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
     // MARK: - ⎡ 🌎 GLOBAL VARIABLES ⎦
     // ———————————————————————————————————————————————————————————————————
@@ -18,12 +18,13 @@ class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
     let realm = try! Realm()
     var allCategories: Results<Category>?
     
+    // collection view cell spacing
+    let spacing: CGFloat = 16.0
+    
+    @IBOutlet var doneButton: UIButton!
+    
     // storyboard connections
     @IBOutlet var categoryCollectionView: UICollectionView!
-    @IBOutlet var doneButton: UIButton!
-    @IBOutlet var viewForLayer: UIView!
-    
-    
     
     // MARK: - ⎡ 🎂 APP LIFECYCLE METHODS ⎦
     // ———————————————————————————————————————————————————————————————————
@@ -33,14 +34,22 @@ class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
         
         // populate table view with all categories
         loadCategories()
+        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
         
         //self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
         
         // change navigation bar and collection view appearances
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         navigationController?.navigationItem.hidesBackButton = true
+    
+        doneButton.isHidden = true
         
-        //let sectionInsets = UIEdgeInsets(top: 50.0, left: 20.0, bottom: 50.0, right: 20.0)
+        
+        let layout = UICollectionViewFlowLayout()
+        layout.sectionInset = UIEdgeInsets(top: spacing, left: spacing, bottom: spacing, right: spacing)
+        layout.minimumLineSpacing = spacing
+        layout.minimumInteritemSpacing = spacing
+        self.categoryCollectionView?.collectionViewLayout = layout
         
     }
     
@@ -75,39 +84,17 @@ class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return allCategories?.count ?? 1    // if # of categories is nil, return 1
     }
-    
 
     // create a cell from the CollectionViewCell class; if # of cells == 1, show no category text
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionViewCell", for: indexPath) as! CollectionViewCell
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "customCell", for: indexPath) as! CollectionViewCell
         
-        _ = allCategories?[indexPath.row].title ?? "No categories added yet"
-        let cellImage = allCategories?[indexPath.row].image ?? "garage"
-        
+        cell.title.text = allCategories?[indexPath.row].title ?? "No categories added yet"
+        cell.image.image = UIImage(named: (allCategories?[indexPath.row].image) ?? "garage")
+        cell.deleteButton.isHidden = true
+        cell.backgroundColor = UIColor.cyan
         return cell
         
-    }
-        //cell.?.text = allCategories?[indexPath.item].title ?? "No categories added yet"
-        
-        
-        
-//        func loadImageFromPath(_ path: NSString) -> UIImage? {
-//
-//            let image = UIImage(contentsOfFile: path as String)
-//
-//            if image == nil {
-//                return UIImage()
-//            } else{
-//                return image
-//            }
-//        }
-        // add image here later
-        //cell.displayContent(title: allCategories?[indexPath.row].title ?? "Unnamed category")
-        
-        
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: UIScreen.main.bounds.size.width/4 - 20, height: UIScreen.main.bounds.size.width/4 - 20)
     }
     
     // MARK: - ⎡ ☑️ COLLECTION VIEW DELEGATE METHODS ⎦
@@ -117,6 +104,7 @@ class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         performSegue(withIdentifier: "goToDrawer", sender: self)
     }
+    
 
     // go to DrawerVC or EditCategoryVC based on user selection
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -130,16 +118,25 @@ class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
         }
     }
     
-    
-//     // the specified item should be selected
-//     override func collectionView(_ collectionView: UICollectionView, shouldSelectItemAt indexPath: IndexPath) -> Bool {
-//        return true
-//     }
+    // collection view cells are equally spaced
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let numberOfItemsPerRow: CGFloat = 2
+        let spacingBetweenCells: CGFloat = 20
+        
+        let totalSpacing = (2 * self.spacing) + ((numberOfItemsPerRow - 1) * spacingBetweenCells) //Amount of total spacing in a row
+        
+        if let collection = self.categoryCollectionView {
+            let width = (collection.bounds.width - totalSpacing)/numberOfItemsPerRow
+            return CGSize(width: width, height: width)
+        } else {
+            return CGSize(width: 0, height: 0)
+        }
+    }
     
     // MARK: - ⎡ ⭐️ CRUD OPERATIONS ⎦
     // ———————————————————————————————————————————————————————————————————
     
-    // add button pressed ∴ generate an alert and save new category with title to realm
+    // ➕ ADD button pressed ∴ generate an alert and save new category with title to realm
     @IBAction func addButtonPressed(_ sender: Any) {
         var textField = UITextField()
         let alert = UIAlertController(title: "Add New Category", message: "", preferredStyle: .alert)
@@ -191,3 +188,5 @@ class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
         }
     }
 }
+
+

@@ -24,6 +24,7 @@
 		44F6202A222F7B8900264397 /* LoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F62029222F7B8900264397 /* LoginVC.swift */; };
 		44F6202C222F7B9C00264397 /* WelcomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F6202B222F7B9C00264397 /* WelcomeVC.swift */; };
 		44F6202E222F7CBC00264397 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F6202D222F7CBC00264397 /* HomeVC.swift */; };
+		44FEE820224AD8910099DE6E /* ToolVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44FEE81F224AD8910099DE6E /* ToolVC.swift */; };
 		6162E1D0538DB5B61C6C955E /* Pods_Junk_Drawer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA00B8A0211A79AAE389F6E8 /* Pods_Junk_Drawer.framework */; };
 /* End PBXBuildFile section */
 
@@ -47,6 +48,7 @@
 		44F62029222F7B8900264397 /* LoginVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginVC.swift; sourceTree = "<group>"; };
 		44F6202B222F7B9C00264397 /* WelcomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeVC.swift; sourceTree = "<group>"; };
 		44F6202D222F7CBC00264397 /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HomeVC.swift; path = "Junk Drawer/Controller/HomeVC.swift"; sourceTree = SOURCE_ROOT; };
+		44FEE81F224AD8910099DE6E /* ToolVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ToolVC.swift; path = "Junk Drawer/Controller/ToolVC.swift"; sourceTree = SOURCE_ROOT; };
 		C9634A803557D9CA25AA22E6 /* Pods-Junk Drawer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Junk Drawer.release.xcconfig"; path = "Pods/Target Support Files/Pods-Junk Drawer/Pods-Junk Drawer.release.xcconfig"; sourceTree = "<group>"; };
 		DA00B8A0211A79AAE389F6E8 /* Pods_Junk_Drawer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Junk_Drawer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC43D633E47DD7375851C87C /* Pods-Junk Drawer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Junk Drawer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Junk Drawer/Pods-Junk Drawer.debug.xcconfig"; sourceTree = "<group>"; };
@@ -135,6 +137,7 @@
 				446DE37E22386C43000CDA19 /* EditCategoryVC.swift */,
 				446DE37822382775000CDA19 /* DrawerVC.swift */,
 				44CB1C0122399BF600480582 /* CollectionViewCell.swift */,
+				44FEE81F224AD8910099DE6E /* ToolVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -300,6 +303,7 @@
 			files = (
 				44F6202C222F7B9C00264397 /* WelcomeVC.swift in Sources */,
 				447CEECD2226274B006D3CC8 /* AppDelegate.swift in Sources */,
+				44FEE820224AD8910099DE6E /* ToolVC.swift in Sources */,
 				44F6202E222F7CBC00264397 /* HomeVC.swift in Sources */,
 				443583DD2235F2E2002BB949 /* Drawer.swift in Sources */,
 				44F62028222F7B5E00264397 /* RegisterVC.swift in Sources */,
