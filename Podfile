@@ -12,5 +12,6 @@ target 'Junk Drawer' do
     pod 'RealmSwift'
     pod 'SwipeCellKit'
     pod 'ColorPicker', '~> 0.1'
+    pod 'PMAlertController'
 
 end

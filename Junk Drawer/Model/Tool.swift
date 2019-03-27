@@ -19,7 +19,7 @@ class Tool: Object {
     @objc dynamic var reminderBoolean = false
     @objc dynamic var reminderDate: Date?
     
-    // @objc dynamic var image = ??
+    @objc dynamic var image = ""
     // @objc dynamic var tint = ??
     // @objc dynamic var location = ??
     

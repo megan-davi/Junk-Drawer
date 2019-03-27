@@ -36,8 +36,8 @@ class DrawerVC: SwipeCellVC {
         //print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
     }
     
-    // appears after viewDidLoad()
-    override func viewWillAppear(_ animated: Bool) {
+     // set large title to current location
+    override func viewWillAppear(_ animated: Bool) {  // appears after viewDidLoad()
         title = selectedCategory?.title
     }
     
@@ -85,6 +85,14 @@ class DrawerVC: SwipeCellVC {
         return cell
     }
     
+    // MARK: - ⎡ 👆 TABLE VIEW DELEGATE METHODS ⎦
+    // ———————————————————————————————————————————————————————————————————
+    
+    // user selects a row ∴ they see the associated tool's detail page
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "goToTool", sender: self)
+    }
+    
     // MARK: - ⎡ ⭐️ CRUD OPERATIONS ⎦
     // ———————————————————————————————————————————————————————————————————
     
@@ -121,52 +129,38 @@ class DrawerVC: SwipeCellVC {
         allDrawers = selectedCategory?.drawers.sorted(byKeyPath: "title", ascending: false)
         tableView.reloadData()
     }
-    
-    override func updateModel(at indexPath: IndexPath) {
-        if let drawer = allDrawers?[indexPath.row] {
-            do {
-                try realm.write {
-                    realm.delete(drawer)
-                }
-            } catch {
-                print("Error deleting drawer: \(error)")
-            }
-        }
-    }
-    
-    // ☑️ UPDATE :: when a user clicks a row, delete a drawer and refresh table view
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let drawer = allDrawers?[indexPath.row] {
-            do {
-                try realm.write {
-                    realm.delete(drawer)
-                }
-            } catch {
-                print("Error saving done status: \(error)")
-            }
-        }
-        tableView.reloadData()
-        tableView.deselectRow(at: indexPath, animated: true)    // allows gray to fade away
-    }
 }
+    
+//    override func updateModel(at indexPath: IndexPath) {
+//        if let drawer = allDrawers?[indexPath.row] {
+//            do {
+//                try realm.write {
+//                    realm.delete(drawer)
+//                }
+//            } catch {
+//                print("Error deleting drawer: \(error)")
+//            }
+//        }
+//    }
 
-extension DrawerVC: UISearchBarDelegate {
-    // MARK: - ⎡ 🔍 SEARCH BAR METHODS ⎦
-    // ———————————————————————————————————————————————————————————————————
-    
-    // when the search button is pressed, look for all of the data entries where the search bar text matches the data
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        allDrawers = allDrawers?.filter("title CONTAINS[cd] %@", searchBar.text!).sorted(byKeyPath: "dateCreated", ascending: true)    // search is case and diacritic insensitive
-        tableView.reloadData()
-    }
-    
-    // when the search bar text is cleared, return to original list, dismiss keyboard, and deselect search bar
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        if searchBar.text?.count == 0 {
-            loadDrawers()
-            DispatchQueue.main.async {
-                searchBar.resignFirstResponder()
-            }
-        }
-    }
-}
+
+//extension DrawerVC: UISearchBarDelegate {
+//    // MARK: - ⎡ 🔍 SEARCH BAR METHODS ⎦
+//    // ———————————————————————————————————————————————————————————————————
+//    
+//    // when the search button is pressed, look for all of the data entries where the search bar text matches the data
+//    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+//        allDrawers = allDrawers?.filter("title CONTAINS[cd] %@", searchBar.text!).sorted(byKeyPath: "dateCreated", ascending: true)    // search is case and diacritic insensitive
+//        tableView.reloadData()
+//    }
+//    
+//    // when the search bar text is cleared, return to original list, dismiss keyboard, and deselect search bar
+//    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+//        if searchBar.text?.count == 0 {
+//            loadDrawers()
+//            DispatchQueue.main.async {
+//                searchBar.resignFirstResponder()
+//            }
+//        }
+//    }
+//}

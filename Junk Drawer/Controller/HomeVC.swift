@@ -40,7 +40,7 @@ class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
         
         // change navigation bar and collection view appearances
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
-        navigationController?.navigationItem.hidesBackButton = true
+        self.navigationItem.setHidesBackButton(true, animated: false)
     
         doneButton.isHidden = true
         
@@ -53,17 +53,6 @@ class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
         
     }
     
- 
-    
-    // delete button clicked ∴ remove the category from realm and refresh the collection view
-    @IBAction func deleteButtonClicked(_ sender: Any) {
-        
-        //updateModel(at: hitIndex!)///////////////////???
-       // self.imgArr.remove(at: (hitIndex?.row)!)
-        self.categoryCollectionView.reloadData()
-    }
-
-
     
 //    @IBAction func doneButtonClicked(_ sender: Any) {
 //            //disable the shake and hide done button
@@ -97,27 +86,6 @@ class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
         
     }
     
-    // MARK: - ⎡ ☑️ COLLECTION VIEW DELEGATE METHODS ⎦
-    // ———————————————————————————————————————————————————————————————————
-    
-    // user has selected a view ∴ segue to that drawer
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "goToDrawer", sender: self)
-    }
-    
-
-    // go to DrawerVC or EditCategoryVC based on user selection
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "goToDrawer" {
-            let destinationVC = segue.destination as! DrawerVC    // go to DrawerVC
-            if let indexPath = categoryCollectionView?.indexPathsForSelectedItems?.first {
-                destinationVC.selectedCategory = allCategories?[indexPath.row]
-            }
-        } else if segue.identifier == "goToEditCategory" {
-            _ = segue.destination as! EditCategoryVC            // go to EditCategoryVC
-        }
-    }
-    
     // collection view cells are equally spaced
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let numberOfItemsPerRow: CGFloat = 2
@@ -130,6 +98,26 @@ class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
             return CGSize(width: width, height: width)
         } else {
             return CGSize(width: 0, height: 0)
+        }
+    }
+    
+    // MARK: - ⎡ 👆 COLLECTION VIEW DELEGATE METHODS ⎦
+    // ———————————————————————————————————————————————————————————————————
+    
+    // user has selected a view ∴ segue to that drawer
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "goToDrawer", sender: self)
+    }
+    
+    // go to DrawerVC or EditCategoryVC based on user selection
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "goToDrawer" {
+            let destinationVC = segue.destination as! DrawerVC    // go to DrawerVC
+            if let indexPath = categoryCollectionView?.indexPathsForSelectedItems?.first {
+                destinationVC.selectedCategory = allCategories?[indexPath.row]
+            }
+        } else if segue.identifier == "goToEditCategory" {
+            _ = segue.destination as! EditCategoryVC            // go to EditCategoryVC
         }
     }
     

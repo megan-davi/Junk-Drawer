@@ -25,6 +25,8 @@
 		44F6202C222F7B9C00264397 /* WelcomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F6202B222F7B9C00264397 /* WelcomeVC.swift */; };
 		44F6202E222F7CBC00264397 /* HomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44F6202D222F7CBC00264397 /* HomeVC.swift */; };
 		44FEE820224AD8910099DE6E /* ToolVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44FEE81F224AD8910099DE6E /* ToolVC.swift */; };
+		44FEE822224AE0210099DE6E /* ToolAddVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44FEE821224AE0210099DE6E /* ToolAddVC.swift */; };
+		44FEE824224AE07E0099DE6E /* ToolDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 44FEE823224AE07E0099DE6E /* ToolDetailVC.swift */; };
 		6162E1D0538DB5B61C6C955E /* Pods_Junk_Drawer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA00B8A0211A79AAE389F6E8 /* Pods_Junk_Drawer.framework */; };
 /* End PBXBuildFile section */
 
@@ -49,6 +51,8 @@
 		44F6202B222F7B9C00264397 /* WelcomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WelcomeVC.swift; sourceTree = "<group>"; };
 		44F6202D222F7CBC00264397 /* HomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = HomeVC.swift; path = "Junk Drawer/Controller/HomeVC.swift"; sourceTree = SOURCE_ROOT; };
 		44FEE81F224AD8910099DE6E /* ToolVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = ToolVC.swift; path = "Junk Drawer/Controller/ToolVC.swift"; sourceTree = SOURCE_ROOT; };
+		44FEE821224AE0210099DE6E /* ToolAddVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolAddVC.swift; sourceTree = "<group>"; };
+		44FEE823224AE07E0099DE6E /* ToolDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolDetailVC.swift; sourceTree = "<group>"; };
 		C9634A803557D9CA25AA22E6 /* Pods-Junk Drawer.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Junk Drawer.release.xcconfig"; path = "Pods/Target Support Files/Pods-Junk Drawer/Pods-Junk Drawer.release.xcconfig"; sourceTree = "<group>"; };
 		DA00B8A0211A79AAE389F6E8 /* Pods_Junk_Drawer.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Junk_Drawer.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		DC43D633E47DD7375851C87C /* Pods-Junk Drawer.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Junk Drawer.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Junk Drawer/Pods-Junk Drawer.debug.xcconfig"; sourceTree = "<group>"; };
@@ -129,6 +133,7 @@
 			isa = PBXGroup;
 			children = (
 				446DE37A22382812000CDA19 /* SwipeCellVC.swift */,
+				44CB1C0122399BF600480582 /* CollectionViewCell.swift */,
 				447CEECC2226274B006D3CC8 /* AppDelegate.swift */,
 				44F62029222F7B8900264397 /* LoginVC.swift */,
 				44F6202B222F7B9C00264397 /* WelcomeVC.swift */,
@@ -136,8 +141,9 @@
 				44F6202D222F7CBC00264397 /* HomeVC.swift */,
 				446DE37E22386C43000CDA19 /* EditCategoryVC.swift */,
 				446DE37822382775000CDA19 /* DrawerVC.swift */,
-				44CB1C0122399BF600480582 /* CollectionViewCell.swift */,
 				44FEE81F224AD8910099DE6E /* ToolVC.swift */,
+				44FEE821224AE0210099DE6E /* ToolAddVC.swift */,
+				44FEE823224AE07E0099DE6E /* ToolDetailVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -246,6 +252,7 @@
 				"${BUILT_PRODUCTS_DIR}/ColorPicker/ColorPicker.framework",
 				"${BUILT_PRODUCTS_DIR}/GTMSessionFetcher/GTMSessionFetcher.framework",
 				"${BUILT_PRODUCTS_DIR}/GoogleUtilities/GoogleUtilities.framework",
+				"${BUILT_PRODUCTS_DIR}/PMAlertController/PMAlertController.framework",
 				"${BUILT_PRODUCTS_DIR}/Realm/Realm.framework",
 				"${BUILT_PRODUCTS_DIR}/RealmSwift/RealmSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/SVProgressHUD/SVProgressHUD.framework",
@@ -260,6 +267,7 @@
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ColorPicker.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GTMSessionFetcher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/GoogleUtilities.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PMAlertController.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Realm.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/RealmSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SVProgressHUD.framework",
@@ -301,12 +309,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				44FEE822224AE0210099DE6E /* ToolAddVC.swift in Sources */,
 				44F6202C222F7B9C00264397 /* WelcomeVC.swift in Sources */,
 				447CEECD2226274B006D3CC8 /* AppDelegate.swift in Sources */,
 				44FEE820224AD8910099DE6E /* ToolVC.swift in Sources */,
 				44F6202E222F7CBC00264397 /* HomeVC.swift in Sources */,
 				443583DD2235F2E2002BB949 /* Drawer.swift in Sources */,
 				44F62028222F7B5E00264397 /* RegisterVC.swift in Sources */,
+				44FEE824224AE07E0099DE6E /* ToolDetailVC.swift in Sources */,
 				443583DF2235F2FF002BB949 /* Tool.swift in Sources */,
 				446DE37922382775000CDA19 /* DrawerVC.swift in Sources */,
 				443583E12235F32B002BB949 /* Tag.swift in Sources */,
