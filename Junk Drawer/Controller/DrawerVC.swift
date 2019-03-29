@@ -8,18 +8,24 @@
 
 import UIKit
 import RealmSwift
+import PMAlertController
 
 class DrawerVC: SwipeCellVC {
     
-    var allDrawers: Results<Drawer>?
-    let realm = try! Realm()
+    // MARK: - ⎡ 🌎 GLOBAL VARIABLES ⎦
+    // ———————————————————————————————————————————————————————————————————
     
+    // pull categories from Realm class
+    let realm = try! Realm()
+    var allDrawers: Results<Drawer>?
     
     var selectedCategory: Category? {
         didSet{
             loadDrawers()
         }
     }
+    
+    @IBOutlet var drawerTableView: UITableView!
     
     let defaults = UserDefaults.standard
     
@@ -32,8 +38,10 @@ class DrawerVC: SwipeCellVC {
         
         tableView.rowHeight = 80
         
-        // reveal realm file location
-        //print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
+        // there are no drawers created ∴ show an alert
+        if allDrawers?.count == 1 {
+            noDrawers()
+        }
     }
     
      // set large title to current location
@@ -44,18 +52,6 @@ class DrawerVC: SwipeCellVC {
     // runs when app is dismissed
     override func viewWillDisappear(_ animated: Bool) {
     }
-    // MARK: - ⎡ 🗺 NAV BAR SETUP METHODS ⎦
-    // ———————————————————————————————————————————————————————————————————
-    
-//    func updateNavBar(withHexCode colorHexCode: String) {
-//        guard let navBar = navigationController?.navigationBar else {fatalError("Navigation controller does not exist.")}
-//        guard let navBarColor = UIColor(hexString: colorHexCode) else {fatalError()}
-//        navBar.barTintColor = navBarColor                                 // background color
-//        navBar.tintColor = ContrastColorOf(navBarColor, returnFlat: true)  // navigation buttons color
-//        searchBar.barTintColor = navBarColor                               // search bar color
-//        navBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: ContrastColorOf(navBarColor, returnFlat: true)]
-//    }
-    
     
     // MARK: - ⎡ 📝 TABLEVIEW DATASOURCE METHODS ⎦
     // ———————————————————————————————————————————————————————————————————
@@ -79,7 +75,7 @@ class DrawerVC: SwipeCellVC {
 //            }
             
         } else {
-            cell.textLabel?.text = "No Drawers Added"
+            cell.textLabel?.text = "No drawers added."
         }
         
         return cell
@@ -88,9 +84,37 @@ class DrawerVC: SwipeCellVC {
     // MARK: - ⎡ 👆 TABLE VIEW DELEGATE METHODS ⎦
     // ———————————————————————————————————————————————————————————————————
     
-    // user selects a row ∴ they see the associated tool's detail page
+    // user selects a drawer ∴ segue to that drawer's associated tools
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)  // allows gray to fade away
         performSegue(withIdentifier: "goToTool", sender: self)
+    }
+    
+    // go to ToolVC or camera?? based on user selection
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "goToTool" {
+            let destinationVC = segue.destination as! ToolVC
+            if let indexPath = tableView.indexPathForSelectedRow {
+                destinationVC.selectedDrawer = allDrawers?[indexPath.row]
+            }
+        }
+//        } else if segue.identifier == "goToEditCategory" {
+//            _ = segue.destination as! EditCategoryVC
+//        }
+    }
+    
+    // there are no drawers in the selected category ∴ show an alert
+    func noDrawers() {
+        let alertVC = PMAlertController(title: "You haven't added any drawers yet.", description: "Add drawers using the plus sign above or quick add a drawer using just a name below.", image: UIImage(named: ""), style: .alert)
+        
+        alertVC.addTextField { (textField) in
+            textField?.placeholder = "Quick add..."
+        }
+        
+        alertVC.addAction(PMAlertAction(title: "OK", style: .default, action: { () in
+        }))
+        
+        self.present(alertVC, animated: true, completion: nil)
     }
     
     // MARK: - ⎡ ⭐️ CRUD OPERATIONS ⎦
@@ -98,30 +122,32 @@ class DrawerVC: SwipeCellVC {
     
     // ⭐️ CREATE :: show alert for user to enter new item, then save this item to realm in the current category and refresh table view
     @IBAction func addButtonPressed(_ sender: Any) {
-        var textField = UITextField()
-        let alert = UIAlertController(title: "Add New Drawer", message: "", preferredStyle: .alert)
+        let alertVC = PMAlertController(title: "Add Drawer", description: "Create a new drawer.", image: UIImage(named: ""), style: .alert)
+        var newTitle = ""
         
-        let action = UIAlertAction(title: "Add Drawer", style: .default) { (action) in
-            if let currentCategory = self.selectedCategory {
-                do {
-                    try self.realm.write {
-                        let newDrawer = Drawer()
-                        newDrawer.title = textField.text!
-                    currentCategory.drawers.append(newDrawer)
-                    }
-                } catch {
-                    print("Error saving new drawers \(error)")
-                }
+        alertVC.addTextField { (textField) in
+            textField?.placeholder = "Drawer title..."
+            newTitle = textField!.text ?? ""
+        }
+        
+        alertVC.addAction(PMAlertAction(title: "Save", style: .default, action: { () in
+            let newDrawer = Drawer()
+            newDrawer.title = newTitle
+            self.save(drawer: newDrawer)
+        }))
+        
+        self.present(alertVC, animated: true, completion: nil)
+    }
+    
+    func save(drawer: Drawer) {
+        do {
+            try realm.write {
+                realm.add(drawer)
             }
-            self.tableView.reloadData()
+        } catch {
+            print("Error saving drawer \(error)")
         }
-        
-        alert.addTextField { (alertTextField) in
-            alertTextField.placeholder = "Create new item"
-            textField = alertTextField
-        }
-        alert.addAction(action)
-        present(alert, animated: true, completion: nil)
+        loadDrawers()
     }
     
     // 👀 READ :: retrieve drawers from realm

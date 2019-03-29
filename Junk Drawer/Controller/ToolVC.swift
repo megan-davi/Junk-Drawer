@@ -19,27 +19,26 @@ class ToolVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
     let realm = try! Realm()
     var allTools: Results<Tool>?
     
-    // collection view cell spacing
-    let spacing: CGFloat = 16.0
-    
-    // storyboard connections
-    @IBOutlet var doneButton: UIButton!
-    @IBOutlet var toolCollectionView: UICollectionView!
-    
     var selectedDrawer: Drawer? {
         didSet{
             loadTools()
         }
     }
     
+    // collection view cell spacing
+    let spacing: CGFloat = 10
+    
+    // storyboard connections
+    @IBOutlet var doneButton: UIButton!
+    @IBOutlet var toolCollectionView: UICollectionView!
+    
+
+    
     // MARK: - ⎡ 🎂 APP LIFECYCLE METHODS ⎦
     // ———————————————————————————————————————————————————————————————————
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // populate table view with all categories
-        loadTools()
         
         // change navigation bar and collection view appearances
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
@@ -58,9 +57,6 @@ class ToolVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
         if allTools?.count == 0 {
             noTools()
         }
-        
-        title = selectedDrawer?.title
-        
     }
 
     // set large title to current location
@@ -85,7 +81,7 @@ class ToolVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "customCell", for: indexPath) as! CollectionViewCell
         
-        cell.title.text = allTools?[indexPath.row].title ?? "No tools added yet"
+        cell.title.text = allTools?[indexPath.row].title ?? ""
         cell.image.image = UIImage(named: (allTools?[indexPath.row].image) ?? "garage")
         cell.deleteButton.isHidden = true
         cell.backgroundColor = UIColor.cyan
@@ -93,33 +89,25 @@ class ToolVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
         
     }
     
-    // show an alert for tools using the PMAlertController pod
+    // there are no tools in the selected drawer ∴ show an alert
     func noTools() {
-        let alertVC = PMAlertController(title: "You haven't added any tools yet.", description: "Add tools using the plus sign above or quick add a tool using just a name below. You can long-press the tools screen to edit it later.", image: UIImage(named: ""), style: .alert)
-        
-        alertVC.addAction(PMAlertAction(title: "OK", style: .default, action: { () in
-            print("Capture action OK")
-        }))
+        let alertVC = PMAlertController(title: "You haven't added any tools yet.", description: "Add tools using the plus sign above or quick add a tool using just a name below.", image: UIImage(named: ""), style: .alert)
         
         alertVC.addTextField { (textField) in
             textField?.placeholder = "Quick add..."
         }
         
+        alertVC.addAction(PMAlertAction(title: "OK", style: .default, action: { () in
+            print("Capture action OK")
+        }))
+        
         self.present(alertVC, animated: true, completion: nil)
-    }
-    
-    // MARK: - ⎡ ☑️ COLLECTION VIEW DELEGATE METHODS ⎦
-    // ———————————————————————————————————————————————————————————————————
-    
-    // user has selected a cell ∴ view tool properties
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "goToDetail", sender: self)
     }
     
     // collection view cells are equally spaced
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let numberOfItemsPerRow: CGFloat = 3
-        let spacingBetweenCells: CGFloat = 12
+        let spacingBetweenCells: CGFloat = 10
         
         let totalSpacing = (2 * self.spacing) + ((numberOfItemsPerRow - 1) * spacingBetweenCells) //Amount of total spacing in a row
         
@@ -129,6 +117,14 @@ class ToolVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
         } else {
             return CGSize(width: 0, height: 0)
         }
+    }
+    
+    // MARK: - ⎡ 👆 COLLECTION VIEW DELEGATE METHODS ⎦
+    // ———————————————————————————————————————————————————————————————————
+    
+    // user has selected a cell ∴ view tool properties
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "goToDetail", sender: self)
     }
     
     // go to ToolDetailVC or ToolAddVC based on user selection
@@ -151,9 +147,9 @@ class ToolVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
         performSegue(withIdentifier: "goToToolAdd", sender: self)
     }
     
-    // 👀 READ :: retrieve categories from realm
+    // 👀 READ :: retrieve tools from realm
     func loadTools() {
-        allTools = realm.objects(Tool.self)
+        allTools = selectedDrawer?.tools.sorted(byKeyPath: "title", ascending: false)
         toolCollectionView.reloadData()
     }
 }

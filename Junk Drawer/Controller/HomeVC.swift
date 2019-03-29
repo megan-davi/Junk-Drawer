@@ -8,6 +8,7 @@
 
 import UIKit
 import RealmSwift
+import PMAlertController
 
 class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
@@ -44,6 +45,9 @@ class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
     
         doneButton.isHidden = true
         
+        if allCategories?.count == 0 {
+            noCategories()
+        }
         
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: spacing, left: spacing, bottom: spacing, right: spacing)
@@ -82,6 +86,7 @@ class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
         cell.image.image = UIImage(named: (allCategories?[indexPath.row].image) ?? "garage")
         cell.deleteButton.isHidden = true
         cell.backgroundColor = UIColor.cyan
+        
         return cell
         
     }
@@ -104,7 +109,7 @@ class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
     // MARK: - ⎡ 👆 COLLECTION VIEW DELEGATE METHODS ⎦
     // ———————————————————————————————————————————————————————————————————
     
-    // user has selected a view ∴ segue to that drawer
+    // user selects a category ∴ segue to that category's associated drawers
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         performSegue(withIdentifier: "goToDrawer", sender: self)
     }
@@ -112,13 +117,29 @@ class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
     // go to DrawerVC or EditCategoryVC based on user selection
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "goToDrawer" {
-            let destinationVC = segue.destination as! DrawerVC    // go to DrawerVC
+            let destinationVC = segue.destination as! DrawerVC
             if let indexPath = categoryCollectionView?.indexPathsForSelectedItems?.first {
                 destinationVC.selectedCategory = allCategories?[indexPath.row]
             }
         } else if segue.identifier == "goToEditCategory" {
-            _ = segue.destination as! EditCategoryVC            // go to EditCategoryVC
+            _ = segue.destination as! EditCategoryVC
         }
+    }
+    
+    // the user has not created any categories ∴ show an alert
+    func noCategories() {
+        let alertVC = PMAlertController(title: "You haven't added any categories yet.", description: "Add categories using the plus sign above or quick add a category using just a name below.", image: UIImage(named: ""), style: .alert)
+        
+        alertVC.addTextField { (textField) in
+            textField?.placeholder = "Quick add..."
+        }
+        
+        alertVC.addAction(PMAlertAction(title: "OK", style: .default, action: { () in
+            print("Capture action OK")
+        }))
+        
+        
+        self.present(alertVC, animated: true, completion: nil)
     }
     
     // MARK: - ⎡ ⭐️ CRUD OPERATIONS ⎦
@@ -126,22 +147,22 @@ class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
     
     // ➕ ADD button pressed ∴ generate an alert and save new category with title to realm
     @IBAction func addButtonPressed(_ sender: Any) {
-        var textField = UITextField()
-        let alert = UIAlertController(title: "Add New Category", message: "", preferredStyle: .alert)
         
-        let action = UIAlertAction(title: "Add", style: .default) { (action) in
+        let alertVC = PMAlertController(title: "Add Category", description: "Categories can contain multiple drawer or just tools.", image: UIImage(named: ""), style: .alert)
+        var newTitle = ""
+        
+        alertVC.addTextField { (textField) in
+            textField?.placeholder = "Category title..."
+            newTitle = textField!.text!
+        }
+        
+        alertVC.addAction(PMAlertAction(title: "Save", style: .default, action: { () in
             let newCategory = Category()
-            newCategory.title = textField.text!
+            newCategory.title = newTitle
             self.save(category: newCategory)
-        }
+        }))
         
-        alert.addAction(action)
-        alert.addTextField { (field) in
-            textField = field
-            textField.placeholder = "Add a new category"
-        }
-        
-        present(alert, animated: true, completion: nil)
+        self.present(alertVC, animated: true, completion: nil)
     }
     
     func save(category: Category) {

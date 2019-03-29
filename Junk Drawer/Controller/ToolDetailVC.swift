@@ -38,10 +38,10 @@ class ToolDetailVC: UIViewController {
     
     // 👀 READ :: retrieve tool details from realm
     func loadToolDetails() {
-        titleLabel.text = selectedTool?.title
+        //titleLabel.text = selectedTool?.title
         //quantityLabel.text = String(selectedTool?.quantity)
-        expBoolean.isOn = selectedTool?.expirationBoolean ?? true
-        descriptionField.text = selectedTool?.desc
+        //expBoolean.isOn = selectedTool?.expirationBoolean ?? true
+        //descriptionField.text = selectedTool?.desc
     }
     
 
