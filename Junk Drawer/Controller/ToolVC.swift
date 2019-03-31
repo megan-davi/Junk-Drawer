@@ -15,12 +15,14 @@ class ToolVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
     // MARK: - ⎡ 🌎 GLOBAL VARIABLES ⎦
     // ———————————————————————————————————————————————————————————————————
     
-    // pull categories from Realm class
+    // pull tools from Realm class
     let realm = try! Realm()
     var allTools: Results<Tool>?
     
+    // load tools from selected drawer
     var selectedDrawer: Drawer? {
         didSet{
+            print("The selected drawer changed from \(oldValue) to \(selectedDrawer?.title)")
             loadTools()
         }
     }
@@ -29,10 +31,10 @@ class ToolVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
     let spacing: CGFloat = 10
     
     // storyboard connections
-    @IBOutlet var doneButton: UIButton!
-    @IBOutlet var toolCollectionView: UICollectionView!
+    @IBOutlet var doneButton: UIButton?
+    @IBOutlet var toolCollectionView: UICollectionView?
     
-
+    let defaults = UserDefaults.standard
     
     // MARK: - ⎡ 🎂 APP LIFECYCLE METHODS ⎦
     // ———————————————————————————————————————————————————————————————————
@@ -44,7 +46,7 @@ class ToolVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         navigationController?.navigationItem.hidesBackButton = true
         
-        doneButton.isHidden = true
+        doneButton?.isHidden = true
         
         // equally space collection view
         let layout = UICollectionViewFlowLayout()
@@ -53,7 +55,7 @@ class ToolVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
         layout.minimumInteritemSpacing = spacing
         self.toolCollectionView?.collectionViewLayout = layout
         
-        // if there are no tools in the collection, present an alert
+        // there are no tools upon start ∴ show an alert
         if allTools?.count == 0 {
             noTools()
         }
@@ -74,19 +76,19 @@ class ToolVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
     
     // set number of cells in collection equal to number of tools; if number of tools == nil, set to 0
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return allTools?.count ?? 0
+        return allTools?.count ?? 1
     }
     
-    // create a cell from the CollectionViewCell class; if # of cells == 1, show no category text
+    // create a cell from the CollectionViewCell class
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "customCell", for: indexPath) as! CollectionViewCell
         
         cell.title.text = allTools?[indexPath.row].title ?? ""
-        cell.image.image = UIImage(named: (allTools?[indexPath.row].image) ?? "garage")
+        cell.image.image = UIImage(named: (allTools?[indexPath.row].image ?? "garage") )
         cell.deleteButton.isHidden = true
         cell.backgroundColor = UIColor.cyan
-        return cell
         
+        return cell
     }
     
     // there are no tools in the selected drawer ∴ show an alert
@@ -128,16 +130,16 @@ class ToolVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
     }
     
     // go to ToolDetailVC or ToolAddVC based on user selection
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "goToDetail" {
-            let destinationVC = segue.destination as! ToolDetailVC
-            if let indexPath = toolCollectionView?.indexPathsForSelectedItems?.first {
-                destinationVC.selectedTool = allTools?[indexPath.row]
-            }
-        } else if segue.identifier == "goToAdd" {
-            _ = segue.destination as! ToolAddVC
-        }
-    }
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        if segue.identifier == "goToDetail" {
+//            let destinationVC = segue.destination as! ToolDetailVC
+//            if let indexPath = toolCollectionView?.indexPathsForSelectedItems?.first {
+//                destinationVC.selectedTool = allTools?[indexPath.row]
+//            }
+//        } else if segue.identifier == "goToAdd" {
+//            _ = segue.destination as! ToolAddVC
+//        }
+//    }
     
     // MARK: - ⎡ ⭐️ CRUD OPERATIONS ⎦
     // ———————————————————————————————————————————————————————————————————
@@ -149,8 +151,9 @@ class ToolVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
     
     // 👀 READ :: retrieve tools from realm
     func loadTools() {
+        // allTools = selectedDrawer?.tools.sorted(byKeyPath: "title", ascending: false)
         allTools = selectedDrawer?.tools.sorted(byKeyPath: "title", ascending: false)
-        toolCollectionView.reloadData()
+        toolCollectionView?.reloadData()
     }
 }
 

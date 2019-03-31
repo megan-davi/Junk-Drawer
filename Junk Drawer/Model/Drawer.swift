@@ -14,6 +14,6 @@ class Drawer: Object {
     
     // @objc dynamic var tint = ??
     
-    let tools = List<Tool>()        // the children of this class are an array of type Tool
+    let tools = List<Tool>()   // the children of this class are an array of type Tool
     var parentCategory = LinkingObjects(fromType: Category.self, property: "drawers")    // parent is the Category class
 }

@@ -260,7 +260,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="drawerTableView" destination="Gmy-lB-4KL" id="th6-o2-rFx"/>
-                        <segue destination="k46-Cc-sCL" kind="show" identifier="goToTool" id="exl-fs-qiP"/>
+                        <segue destination="k46-Cc-sCL" kind="show" identifier="goToTool" id="vKa-CP-oaI"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cKp-Zy-jQH" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -326,8 +326,8 @@
                                     </collectionViewCell>
                                 </cells>
                                 <connections>
-                                    <outlet property="dataSource" destination="k46-Cc-sCL" id="Dfs-2o-Ikk"/>
-                                    <outlet property="delegate" destination="k46-Cc-sCL" id="LzK-i9-5s8"/>
+                                    <outlet property="dataSource" destination="k46-Cc-sCL" id="5cm-6C-Sbh"/>
+                                    <outlet property="delegate" destination="k46-Cc-sCL" id="Meu-re-Yv5"/>
                                 </connections>
                             </collectionView>
                             <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ykl-6O-YBu">
@@ -362,7 +362,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="doneButton" destination="ykl-6O-YBu" id="6EF-Df-nm2"/>
-                        <outlet property="toolCollectionView" destination="W4d-gS-fur" id="Ho5-eP-NN7"/>
+                        <outlet property="toolCollectionView" destination="W4d-gS-fur" id="7g2-Xg-u4V"/>
                         <segue destination="lIR-RT-ZRW" kind="show" identifier="goToDetail" id="e5u-pW-oQE"/>
                     </connections>
                 </viewController>

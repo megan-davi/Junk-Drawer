@@ -19,12 +19,15 @@ class DrawerVC: SwipeCellVC {
     let realm = try! Realm()
     var allDrawers: Results<Drawer>?
     
+    // load drawers from selected category
     var selectedCategory: Category? {
-        didSet{
+        didSet {   // runs when the selected categeory changes
+            print("The selected category changed from \(oldValue) to \(selectedCategory?.title)")
             loadDrawers()
         }
     }
     
+    // storyboard connection
     @IBOutlet var drawerTableView: UITableView!
     
     let defaults = UserDefaults.standard
@@ -47,10 +50,6 @@ class DrawerVC: SwipeCellVC {
      // set large title to current location
     override func viewWillAppear(_ animated: Bool) {  // appears after viewDidLoad()
         title = selectedCategory?.title
-    }
-    
-    // runs when app is dismissed
-    override func viewWillDisappear(_ animated: Bool) {
     }
     
     // MARK: - ⎡ 📝 TABLEVIEW DATASOURCE METHODS ⎦
@@ -81,28 +80,6 @@ class DrawerVC: SwipeCellVC {
         return cell
     }
     
-    // MARK: - ⎡ 👆 TABLE VIEW DELEGATE METHODS ⎦
-    // ———————————————————————————————————————————————————————————————————
-    
-    // user selects a drawer ∴ segue to that drawer's associated tools
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: true)  // allows gray to fade away
-        performSegue(withIdentifier: "goToTool", sender: self)
-    }
-    
-    // go to ToolVC or camera?? based on user selection
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "goToTool" {
-            let destinationVC = segue.destination as! ToolVC
-            if let indexPath = tableView.indexPathForSelectedRow {
-                destinationVC.selectedDrawer = allDrawers?[indexPath.row]
-            }
-        }
-//        } else if segue.identifier == "goToEditCategory" {
-//            _ = segue.destination as! EditCategoryVC
-//        }
-    }
-    
     // there are no drawers in the selected category ∴ show an alert
     func noDrawers() {
         let alertVC = PMAlertController(title: "You haven't added any drawers yet.", description: "Add drawers using the plus sign above or quick add a drawer using just a name below.", image: UIImage(named: ""), style: .alert)
@@ -116,6 +93,31 @@ class DrawerVC: SwipeCellVC {
         
         self.present(alertVC, animated: true, completion: nil)
     }
+    
+    // MARK: - ⎡ 👆 TABLE VIEW DELEGATE METHODS ⎦
+    // ———————————————————————————————————————————————————————————————————
+    
+    // user selects a drawer ∴ segue to that drawer's associated tools
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        //tableView.deselectRow(at: indexPath, animated: true)  // allows gray to fade away
+        print("goToTool segue")
+        performSegue(withIdentifier: "goToTool", sender: self)
+    }
+    
+    // go to ToolVC or camera?? based on user selection
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        print("Prepare for segue from drawerVC ran")
+        if segue.identifier == "goToTool" {
+            let destinationVC = segue.destination as! ToolVC
+            if let indexPath = tableView.indexPathForSelectedRow {
+                destinationVC.selectedDrawer = allDrawers?[indexPath.row]
+                print("Selected drawer set to index path")
+            }
+        } else if segue.identifier == "goToEditCategory" {
+            _ = segue.destination as! EditCategoryVC
+        }
+    }
+
     
     // MARK: - ⎡ ⭐️ CRUD OPERATIONS ⎦
     // ———————————————————————————————————————————————————————————————————

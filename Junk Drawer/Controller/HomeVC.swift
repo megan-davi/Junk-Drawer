@@ -22,9 +22,8 @@ class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
     // collection view cell spacing
     let spacing: CGFloat = 16.0
     
-    @IBOutlet var doneButton: UIButton!
-    
     // storyboard connections
+    @IBOutlet var doneButton: UIButton!
     @IBOutlet var categoryCollectionView: UICollectionView!
     
     // MARK: - ⎡ 🎂 APP LIFECYCLE METHODS ⎦
@@ -45,6 +44,7 @@ class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
     
         doneButton.isHidden = true
         
+        // there are no categories upon start ∴ show an alert
         if allCategories?.count == 0 {
             noCategories()
         }
@@ -75,7 +75,7 @@ class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
     
     // set number of cells in collection equal to number of categories or minimum of 1
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return allCategories?.count ?? 1    // if # of categories is nil, return 1
+        return allCategories?.count ?? 0    // if # of categories is nil, return 0
     }
 
     // create a cell from the CollectionViewCell class; if # of cells == 1, show no category text
