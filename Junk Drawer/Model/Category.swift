@@ -15,7 +15,9 @@ class Category: Object {
 
     // @objc dynamic var tint = ??
     
+    // the children of this class are an array of type Drawer or Tool
     @objc dynamic var drawerBoolean = true
-    let drawers = List<Drawer>()  // the children of this class are an array of type Drawer
+    let drawers = List<Drawer>()
+    let tools = List<Tool>()
 
 }

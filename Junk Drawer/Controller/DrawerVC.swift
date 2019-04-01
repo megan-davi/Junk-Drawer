@@ -19,9 +19,9 @@ class DrawerVC: SwipeCellVC {
     let realm = try! Realm()
     var allDrawers: Results<Drawer>?
     
-    // load drawers from selected category
+    // selected category changes ∴ load its drawers
     var selectedCategory: Category? {
-        didSet {   // runs when the selected categeory changes
+        didSet {
             print("The selected category changed from \(oldValue) to \(selectedCategory?.title)")
             loadDrawers()
         }

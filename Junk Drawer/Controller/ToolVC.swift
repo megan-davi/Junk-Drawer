@@ -42,6 +42,8 @@ class ToolVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        toolCollectionView?.reloadData()
+        
         // change navigation bar and collection view appearances
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         navigationController?.navigationItem.hidesBackButton = true

@@ -716,9 +716,9 @@
                         <viewLayoutGuide key="safeArea" id="Prs-Jx-xXz"/>
                     </view>
                     <navigationItem key="navigationItem" title="Add New Tool" largeTitleDisplayMode="never" id="TKs-hn-tv8">
-                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="T8r-wO-Cv4">
+                        <barButtonItem key="rightBarButtonItem" systemItem="save" id="T8r-wO-Cv4">
                             <connections>
-                                <action selector="doneButtonPressed:" destination="FoD-U3-W53" id="hQb-Tf-hhx"/>
+                                <action selector="saveButtonPressed:" destination="FoD-U3-W53" id="uTp-ry-nMQ"/>
                             </connections>
                         </barButtonItem>
                     </navigationItem>

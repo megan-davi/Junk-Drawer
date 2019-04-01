@@ -13,6 +13,9 @@ class ToolAddVC: UIViewController {
 
     let realm = try! Realm()
     
+    var selectedDrawer: Drawer?
+    var selectedCategory: Category?
+    
     // tool property defaults
     var expBoolean = false
     
@@ -41,41 +44,45 @@ class ToolAddVC: UIViewController {
         expBoolean = sender.isOn == true ? true : false
     }
     
-    // done button pressed ∴ add new Tool object and save to Realm
-    @IBAction func doneButtonPressed(_ sender: Any) {
-        let newTool = Tool()
-        newTool.title = titleField.text ?? ""
-        newTool.image = "garage"
-        
-//        quantityAsInt = Int(quantityField.text)
-//
-//
-//        {
-//            //quantityAsInt = Int(quantityField.text!)
-//        } else {
-//            quantityAsInt = 0
-//        }
-        
-        newTool.quantity = 1
-        newTool.expirationBoolean = expBoolean
-        newTool.desc = descriptionField.text ?? ""
-        
-        self.save(tool: newTool)
-        
+    // save button pressed ∴ add new Tool object and save to Realm
+    @IBAction func saveButtonPressed(_ sender: Any) {
+        if let selectedD = self.selectedDrawer {
+            do {
+                try self.realm.write {
+                    let newTool = Tool()
+                    newTool.title = titleField.text ?? ""
+                    newTool.image = "garage"
+                    newTool.quantity = 1
+                    newTool.expirationBoolean = expBoolean
+                    newTool.desc = descriptionField.text ?? ""
+                    selectedD.tools.append(newTool)
+                }
+            } catch {
+                print("Error saving new tool under drawer \(error)")
+            }
+        }
+        if let selectedC = self.selectedCategory {
+            do {
+                try self.realm.write {
+                    let newTool = Tool()
+                    newTool.title = titleField.text ?? ""
+                    newTool.image = "garage"
+                    newTool.quantity = 1
+                    newTool.expirationBoolean = expBoolean
+                    newTool.desc = descriptionField.text ?? ""
+                    selectedC.tools.append(newTool)
+                }
+            } catch {
+                print("Error saving new tool under category \(error)")
+            }
+            
+        }
         // go back to previous view controller
         navigationController?.popViewController(animated: true)
         dismiss(animated: true, completion: nil)
     }
     
-    func save(tool: Tool) {
-        do {
-            try realm.write {
-                realm.add(tool)
-            }
-        } catch {
-                print("Error saving tool \(error)")
-        }
-    }
+
     
 
 }
