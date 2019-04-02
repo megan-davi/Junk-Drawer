@@ -40,22 +40,24 @@ class DrawerVC: SwipeCellVC {
         super.viewDidLoad()
         
         tableView.rowHeight = 80
-        
-        // there are no drawers created ∴ show an alert
-        if allDrawers?.count == 1 {
-            noDrawers()
-        }
+        print("Number of rows is \(allDrawers?.count)")
+        // there are no drawers upon start ∴ show an alert
+
     }
     
      // set large title to current location
     override func viewWillAppear(_ animated: Bool) {  // appears after viewDidLoad()
         title = selectedCategory?.title
+        
+        if allDrawers?.count == 0 {
+            noDrawers()
+        }
     }
     
     // MARK: - ⎡ 📝 TABLEVIEW DATASOURCE METHODS ⎦
     // ———————————————————————————————————————————————————————————————————
     
-    // set number of rows in table equal to number of items OR 1 if number of items is 0
+    // set number of rows in table equal to number of items OR 1 if number of items is 0 or nil (in order to show "no items added" message)
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return allDrawers?.count ?? 1
     }
@@ -78,20 +80,6 @@ class DrawerVC: SwipeCellVC {
         }
         
         return cell
-    }
-    
-    // there are no drawers in the selected category ∴ show an alert
-    func noDrawers() {
-        let alertVC = PMAlertController(title: "You haven't added any drawers yet.", description: "Add drawers using the plus sign above or quick add a drawer using just a name below.", image: UIImage(named: ""), style: .alert)
-        
-        alertVC.addTextField { (textField) in
-            textField?.placeholder = "Quick add..."
-        }
-        
-        alertVC.addAction(PMAlertAction(title: "OK", style: .default, action: { () in
-        }))
-        
-        self.present(alertVC, animated: true, completion: nil)
     }
     
     // MARK: - ⎡ 👆 TABLE VIEW DELEGATE METHODS ⎦
@@ -117,6 +105,25 @@ class DrawerVC: SwipeCellVC {
             _ = segue.destination as! EditCategoryVC
         }
     }
+    
+    // there are no drawers in the selected category ∴ show an alert
+    func noDrawers() {
+        var textField = UITextField()
+        let alertVC = PMAlertController(title: "You haven't added any drawers yet.", description: "Add drawers using the plus sign above or quick add a drawer using just a name below.", image: UIImage(named: ""), style: .alert)
+        
+        alertVC.addTextField { (field) in
+            textField = field!
+            textField.placeholder = "Quick add..."
+        }
+        
+        alertVC.addAction(PMAlertAction(title: "OK", style: .default, action: { () in
+            let newDrawer = Drawer()
+            newDrawer.title = textField.text ?? ""
+            self.save(drawer: newDrawer)
+        }))
+        
+        self.present(alertVC, animated: true, completion: nil)
+    }
 
     
     // MARK: - ⎡ ⭐️ CRUD OPERATIONS ⎦
@@ -124,17 +131,18 @@ class DrawerVC: SwipeCellVC {
     
     // ⭐️ CREATE :: show alert for user to enter new item, then save this item to realm in the current category and refresh table view
     @IBAction func addButtonPressed(_ sender: Any) {
-        let alertVC = PMAlertController(title: "Add Drawer", description: "Create a new drawer.", image: UIImage(named: ""), style: .alert)
-        var newTitle = ""
         
-        alertVC.addTextField { (textField) in
-            textField?.placeholder = "Drawer title..."
-            newTitle = textField!.text ?? ""
+        var textField = UITextField()
+        let alertVC = PMAlertController(title: "Add Drawer", description: "Create a new drawer.", image: UIImage(named: ""), style: .alert)
+        
+        alertVC.addTextField { (field) in
+            textField = field!
+            textField.placeholder = "Drawer title..."
         }
         
         alertVC.addAction(PMAlertAction(title: "Save", style: .default, action: { () in
             let newDrawer = Drawer()
-            newDrawer.title = newTitle
+            newDrawer.title = textField.text ?? ""
             self.save(drawer: newDrawer)
         }))
         
@@ -149,7 +157,7 @@ class DrawerVC: SwipeCellVC {
         } catch {
             print("Error saving drawer \(error)")
         }
-        loadDrawers()
+        drawerTableView.reloadData()
     }
     
     // 👀 READ :: retrieve drawers from realm

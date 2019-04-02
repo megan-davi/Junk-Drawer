@@ -84,8 +84,12 @@ class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
         
         cell.title.text = allCategories?[indexPath.row].title ?? "No categories added yet"
         cell.image.image = UIImage(named: (allCategories?[indexPath.row].image) ?? "garage")
+        
         cell.deleteButton.isHidden = true
-        cell.backgroundColor = UIColor.cyan
+        
+        // cell border
+        cell.layer.borderWidth = 1
+        cell.layer.borderColor = UIColor(named: "customGray")?.cgColor
         
         return cell
         
@@ -128,14 +132,18 @@ class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
     
     // the user has not created any categories ∴ show an alert
     func noCategories() {
+        var textField = UITextField()
         let alertVC = PMAlertController(title: "You haven't added any categories yet.", description: "Add categories using the plus sign above or quick add a category using just a name below.", image: UIImage(named: ""), style: .alert)
         
-        alertVC.addTextField { (textField) in
-            textField?.placeholder = "Quick add..."
+        alertVC.addTextField { (field) in
+            textField = field!
+            textField.placeholder = "Quick add..."
         }
         
         alertVC.addAction(PMAlertAction(title: "OK", style: .default, action: { () in
-            print("Capture action OK")
+            let newCategory = Category()
+            newCategory.title = textField.text ?? ""
+            self.save(category: newCategory)
         }))
         
         
@@ -148,17 +156,17 @@ class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
     // ➕ ADD button pressed ∴ generate an alert and save new category with title to realm
     @IBAction func addButtonPressed(_ sender: Any) {
         
-        let alertVC = PMAlertController(title: "Add Category", description: "Categories can contain multiple drawer or just tools.", image: UIImage(named: ""), style: .alert)
-        var newTitle = ""
+        var textField = UITextField()
+        let alertVC = PMAlertController(title: "Add Category", description: "Categories may contain multiple drawers or just tools.", image: UIImage(named: ""), style: .alert)
         
-        alertVC.addTextField { (textField) in
-            textField?.placeholder = "Category title..."
-            newTitle = textField!.text!
+        alertVC.addTextField { (field) in
+            textField = field!
+            textField.placeholder = "Category title..."
         }
         
         alertVC.addAction(PMAlertAction(title: "Save", style: .default, action: { () in
             let newCategory = Category()
-            newCategory.title = newTitle
+            newCategory.title = textField.text ?? ""
             self.save(category: newCategory)
         }))
         
@@ -167,8 +175,8 @@ class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
     
     func save(category: Category) {
         do {
-            try realm.write {
-                realm.add(category)
+            try self.realm.write {
+                self.realm.add(category)
             }
         } catch {
             print("Error saving category \(error)")
@@ -176,6 +184,8 @@ class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
         categoryCollectionView.reloadData()
     }
     
+    
+
     // 👀 READ :: retrieve categories from realm
     func loadCategories() {
         allCategories = realm.objects(Category.self)
