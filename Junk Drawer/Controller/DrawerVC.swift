@@ -9,8 +9,9 @@
 import UIKit
 import RealmSwift
 import PMAlertController
+import ChameleonFramework
 
-class DrawerVC: SwipeCellVC {
+class DrawerVC: SwipeCellVC, UIImagePickerControllerDelegate {
     
     // MARK: - ⎡ 🌎 GLOBAL VARIABLES ⎦
     // ———————————————————————————————————————————————————————————————————
@@ -49,9 +50,28 @@ class DrawerVC: SwipeCellVC {
     override func viewWillAppear(_ animated: Bool) {  // appears after viewDidLoad()
         title = selectedCategory?.title
         
+        guard let colorHex = selectedCategory?.tint else {fatalError()}
+        updateNavBar(withHexCode: colorHex)
+        
         if allDrawers?.count == 0 {
             noDrawers()
         }
+    }
+    
+    // runs when app is dismissed
+    override func viewWillDisappear(_ animated: Bool) {
+        UIView.animate(withDuration: 1.0) {
+            navigationController?.navigationBar.barTintColor = UIColor(named: "customBlack")
+        }
+    }
+    
+    // MARK: - ⎡ 🗺 NAV BAR SETUP METHODS ⎦
+    // ———————————————————————————————————————————————————————————————————
+    
+    func updateNavBar(withHexCode colorHexCode: String) {
+        guard let navBar = navigationController?.navigationBar else {fatalError("Navigation controller does not exist.")}
+        guard let navBarColor = UIColor(hexString: colorHexCode) else {fatalError()}
+        navBar.barTintColor = navBarColor                                 // background color
     }
     
     // MARK: - ⎡ 📝 TABLEVIEW DATASOURCE METHODS ⎦
@@ -59,7 +79,7 @@ class DrawerVC: SwipeCellVC {
     
     // set number of rows in table equal to number of items OR 1 if number of items is 0 or nil (in order to show "no items added" message)
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return allDrawers?.count ?? 1
+        return allDrawers?.count ?? 0
     }
     
     // set row equal to item title property and add a checkmark if done property = true, else say there are no items added
@@ -69,14 +89,6 @@ class DrawerVC: SwipeCellVC {
         
         if let drawer = allDrawers?[indexPath.row] {
             cell.textLabel?.text = drawer.title
-            
-//            if let color = UIColor(hexString: selectedCategory!.color)?.darken(byPercentage: CGFloat(indexPath.row) / CGFloat(todoItems!.count)) {  // gradient cells
-//                cell.backgroundColor = color
-//                cell.textLabel?.textColor = ContrastColorOf(color, returnFlat: true)
-//            }
-            
-        } else {
-            cell.textLabel?.text = "No drawers added."
         }
         
         return cell
@@ -116,10 +128,22 @@ class DrawerVC: SwipeCellVC {
             textField.placeholder = "Quick add..."
         }
         
-        alertVC.addAction(PMAlertAction(title: "OK", style: .default, action: { () in
-            let newDrawer = Drawer()
-            newDrawer.title = textField.text ?? ""
-            self.save(drawer: newDrawer)
+        alertVC.addAction(PMAlertAction(title: "Save Drawer", style: .default, action: { () in
+            if let currentCategory = self.selectedCategory {
+                do {
+                    try self.realm.write {
+                        let newDrawer = Drawer()
+                        newDrawer.title = textField.text ?? ""
+                        currentCategory.drawers.append(newDrawer)
+                        self.drawerTableView.reloadData()
+                    }
+                } catch {
+                    print("Error saving new drawer \(error)")
+                }
+            }
+        }))
+        
+        alertVC.addAction(PMAlertAction(title: "No Thanks", style: .cancel, action: { () -> Void in
         }))
         
         self.present(alertVC, animated: true, completion: nil)
@@ -141,9 +165,21 @@ class DrawerVC: SwipeCellVC {
         }
         
         alertVC.addAction(PMAlertAction(title: "Save", style: .default, action: { () in
-            let newDrawer = Drawer()
-            newDrawer.title = textField.text ?? ""
-            self.save(drawer: newDrawer)
+            if let currentCategory = self.selectedCategory {
+                do {
+                    try self.realm.write {
+                        let newDrawer = Drawer()
+                        newDrawer.title = textField.text ?? ""
+                        currentCategory.drawers.append(newDrawer)
+                        self.drawerTableView.reloadData()
+                    }
+                } catch {
+                    print("Error saving new drawer \(error)")
+                }
+            }
+        }))
+        
+        alertVC.addAction(PMAlertAction(title: "Cancel", style: .cancel, action: { () -> Void in
         }))
         
         self.present(alertVC, animated: true, completion: nil)

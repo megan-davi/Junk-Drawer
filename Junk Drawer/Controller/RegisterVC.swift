@@ -32,7 +32,7 @@ class RegisterVC: UIViewController {
             } else {
                 print("Registration Successful!")
                 SVProgressHUD.dismiss()   // dismiss loading symbol
-                self.performSegue(withIdentifier: "goToChat", sender: self)
+                self.performSegue(withIdentifier: "goToHome", sender: self)
             }
         }
     }

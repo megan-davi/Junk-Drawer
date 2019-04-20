@@ -12,6 +12,7 @@ class CollectionViewCell: UICollectionViewCell {
     
     @IBOutlet var title: UILabel!
     @IBOutlet var image: UIImageView!
+    @IBOutlet var tint: UIView!
     @IBOutlet var deleteButton: UIButton!
 
 }

@@ -13,5 +13,6 @@ target 'Junk Drawer' do
     pod 'SwipeCellKit'
     pod 'ColorPicker', '~> 0.1'
     pod 'PMAlertController'
+    pod 'ChameleonFramework'
 
 end

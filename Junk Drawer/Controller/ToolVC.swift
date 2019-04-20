@@ -10,7 +10,7 @@ import UIKit
 import RealmSwift
 import PMAlertController
 
-class ToolVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+class ToolVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIImagePickerControllerDelegate {
     
     // MARK: - ⎡ 🌎 GLOBAL VARIABLES ⎦
     // ———————————————————————————————————————————————————————————————————
@@ -28,7 +28,7 @@ class ToolVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
     }
     
     // collection view cell spacing
-    let spacing: CGFloat = 10
+    let spacing: CGFloat = 1
     
     // storyboard connections
     @IBOutlet var doneButton: UIButton?
@@ -102,7 +102,9 @@ class ToolVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
         }
         
         alertVC.addAction(PMAlertAction(title: "OK", style: .default, action: { () in
-            print("Capture action OK")
+        }))
+        
+        alertVC.addAction(PMAlertAction(title: "Cancel", style: .cancel, action: { () -> Void in
         }))
         
         self.present(alertVC, animated: true, completion: nil)
@@ -111,7 +113,7 @@ class ToolVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
     // collection view cells are equally spaced
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let numberOfItemsPerRow: CGFloat = 3
-        let spacingBetweenCells: CGFloat = 10
+        let spacingBetweenCells: CGFloat = 1
         
         let totalSpacing = (2 * self.spacing) + ((numberOfItemsPerRow - 1) * spacingBetweenCells) //Amount of total spacing in a row
         

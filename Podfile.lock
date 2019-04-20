@@ -1,4 +1,7 @@
 PODS:
+  - ChameleonFramework (2.1.0):
+    - ChameleonFramework/Default (= 2.1.0)
+  - ChameleonFramework/Default (2.1.0)
   - ColorPicker (0.1.2)
   - Firebase (5.16.0):
     - Firebase/Core (= 5.16.0)
@@ -79,6 +82,7 @@ PODS:
   - SwipeCellKit (2.5.1)
 
 DEPENDENCIES:
+  - ChameleonFramework
   - ColorPicker (~> 0.1)
   - Firebase
   - Firebase/Auth
@@ -90,6 +94,7 @@ DEPENDENCIES:
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - ChameleonFramework
     - ColorPicker
     - Firebase
     - FirebaseAnalytics
@@ -110,6 +115,7 @@ SPEC REPOS:
     - SwipeCellKit
 
 SPEC CHECKSUMS:
+  ChameleonFramework: d21a3cc247abfe5e37609a283a8238b03575cf64
   ColorPicker: 4c9509876f05e41478bb8ecca0046ef1b8f5c84f
   Firebase: 749a8ff4962f9d8c79dda1966de20f6f77583d67
   FirebaseAnalytics: d35d47c03c50c73c14a7fd31463c5775843e78a9
@@ -129,6 +135,6 @@ SPEC CHECKSUMS:
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   SwipeCellKit: 30fd6a4f8a8b8ac864ea389c8b4c8bac5ba5471a
 
-PODFILE CHECKSUM: d3b5c6de0c1ed3f049d2ce771a1c371e6c3e740e
+PODFILE CHECKSUM: 69273c3c240f0bbea3b69b229c9c48d89cb8061f
 
 COCOAPODS: 1.5.3

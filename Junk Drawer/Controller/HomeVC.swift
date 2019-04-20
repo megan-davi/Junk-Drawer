@@ -9,8 +9,9 @@
 import UIKit
 import RealmSwift
 import PMAlertController
+import ChameleonFramework
 
-class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIImagePickerControllerDelegate {
     
     // MARK: - ⎡ 🌎 GLOBAL VARIABLES ⎦
     // ———————————————————————————————————————————————————————————————————
@@ -34,9 +35,8 @@ class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
         
         // populate table view with all categories
         loadCategories()
-        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
         
-        //self.collectionView!.register(UICollectionViewCell.self, forCellWithReuseIdentifier: reuseIdentifier)
+        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
         
         // change navigation bar and collection view appearances
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
@@ -82,14 +82,23 @@ class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "customCell", for: indexPath) as! CollectionViewCell
         
-        cell.title.text = allCategories?[indexPath.row].title ?? "No categories added yet"
-        cell.image.image = UIImage(named: (allCategories?[indexPath.row].image) ?? "garage")
+        cell.title.text = allCategories?[indexPath.row].title
+        cell.tint.backgroundColor = UIColor(hexString: (allCategories?[indexPath.row].tint))
+        
+//        if ((allCategories?[indexPath.row].image) != nil) {
+//
+//            cell.image.backgroundColor = UIColor.red
+//        } else {
+//
+//            cell.tint.backgroundColor = UIColor.red
+//            cell.image.backgroundColor = UIColor.red//  UIColor(hexString: allCategories?[indexPath.row].tint)
+//        }
         
         cell.deleteButton.isHidden = true
         
         // cell border
         cell.layer.borderWidth = 1
-        cell.layer.borderColor = UIColor(named: "customGray")?.cgColor
+        cell.layer.borderColor = UIColor(hexString: allCategories?[indexPath.row].tint)?.cgColor
         
         return cell
         
@@ -146,6 +155,9 @@ class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
             self.save(category: newCategory)
         }))
         
+        alertVC.addAction(PMAlertAction(title: "Cancel", style: .cancel, action: { () -> Void in
+        }))
+        
         
         self.present(alertVC, animated: true, completion: nil)
     }
@@ -167,7 +179,11 @@ class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
         alertVC.addAction(PMAlertAction(title: "Save", style: .default, action: { () in
             let newCategory = Category()
             newCategory.title = textField.text ?? ""
+            newCategory.tint = UIColor.randomFlat().hexValue()
             self.save(category: newCategory)
+        }))
+        
+        alertVC.addAction(PMAlertAction(title: "Cancel", style: .cancel, action: { () -> Void in
         }))
         
         self.present(alertVC, animated: true, completion: nil)
