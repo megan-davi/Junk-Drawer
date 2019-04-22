@@ -847,9 +847,16 @@
                                             <rect key="frame" x="0.0" y="0.0" width="150" height="150"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="HgY-m9-8TS">
-                                                    <rect key="frame" x="0.0" y="30" width="150" height="113"/>
-                                                    <color key="backgroundColor" name="customBlue"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hlX-u0-sTd">
+                                                    <rect key="frame" x="0.0" y="0.0" width="150" height="32"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="HgY-m9-8TS">
+                                                    <rect key="frame" x="0.0" y="30" width="150" height="120"/>
+                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <color key="tintColor" name="customBlack"/>
                                                 </imageView>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TYm-0c-edJ">
@@ -857,32 +864,8 @@
                                                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                     <state key="normal" backgroundImage="pencil"/>
                                                 </button>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hlX-u0-sTd">
-                                                    <rect key="frame" x="0.0" y="0.0" width="150" height="31"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <nil key="textColor"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="qQ8-0E-CtA">
-                                                    <rect key="frame" x="0.0" y="30" width="150" height="113"/>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                </view>
                                             </subviews>
                                         </view>
-                                        <constraints>
-                                            <constraint firstItem="hlX-u0-sTd" firstAttribute="top" secondItem="ZvQ-QV-gqr" secondAttribute="top" id="2VV-q6-UUF"/>
-                                            <constraint firstAttribute="trailing" secondItem="hlX-u0-sTd" secondAttribute="trailing" id="G16-id-nuC"/>
-                                            <constraint firstItem="HgY-m9-8TS" firstAttribute="top" secondItem="ZvQ-QV-gqr" secondAttribute="top" constant="30" id="Hio-TM-CYi"/>
-                                            <constraint firstAttribute="bottom" secondItem="hlX-u0-sTd" secondAttribute="bottom" constant="119" id="Vkv-Fi-1NR"/>
-                                            <constraint firstAttribute="trailing" secondItem="qQ8-0E-CtA" secondAttribute="trailing" id="YCl-sZ-kPu"/>
-                                            <constraint firstItem="HgY-m9-8TS" firstAttribute="leading" secondItem="ZvQ-QV-gqr" secondAttribute="leading" id="d9b-Jx-6RF"/>
-                                            <constraint firstItem="qQ8-0E-CtA" firstAttribute="top" secondItem="ZvQ-QV-gqr" secondAttribute="top" constant="30" id="f97-gt-by0"/>
-                                            <constraint firstAttribute="bottom" secondItem="qQ8-0E-CtA" secondAttribute="bottom" constant="7" id="gcR-HA-Bh8"/>
-                                            <constraint firstItem="hlX-u0-sTd" firstAttribute="leading" secondItem="ZvQ-QV-gqr" secondAttribute="leading" id="hxg-Lv-bqD"/>
-                                            <constraint firstAttribute="trailing" secondItem="HgY-m9-8TS" secondAttribute="trailing" id="una-T5-BLJ"/>
-                                            <constraint firstItem="qQ8-0E-CtA" firstAttribute="leading" secondItem="ZvQ-QV-gqr" secondAttribute="leading" id="vsR-Cf-pNB"/>
-                                            <constraint firstAttribute="bottom" secondItem="HgY-m9-8TS" secondAttribute="bottom" constant="7" id="wCE-oV-3nN"/>
-                                        </constraints>
                                         <variation key="default">
                                             <mask key="subviews">
                                                 <exclude reference="TYm-0c-edJ"/>
@@ -891,7 +874,6 @@
                                         <connections>
                                             <outlet property="deleteButton" destination="TYm-0c-edJ" id="cJ2-Lr-j4x"/>
                                             <outlet property="image" destination="HgY-m9-8TS" id="lFF-Zn-DR2"/>
-                                            <outlet property="tint" destination="qQ8-0E-CtA" id="O0I-mS-Z0t"/>
                                             <outlet property="title" destination="hlX-u0-sTd" id="fbO-v4-OgM"/>
                                         </connections>
                                     </collectionViewCell>

@@ -15,6 +15,8 @@ class EditCategoryVC: UIViewController, ColorPickerDelegate {
     @IBOutlet var colorView: UIView!
     @IBOutlet var titleTextField: UITextField!
     @IBOutlet var drawerSwitch: UISwitch!
+
+    var selectedCategory: Category?
     
     func colorPicker(_ colorPicker: ColorPickerListView, selectedColor: String) {
         colorView.backgroundColor = UIColor.colorWithHexString(selectedColor)
@@ -38,7 +40,8 @@ class EditCategoryVC: UIViewController, ColorPickerDelegate {
     }
 
     @IBAction func saveButton(_ sender: Any) {
-        
+        // drawer switch is off ∴ set drawer boolean to false
+        if drawerSwitch.isOn {} else {selectedCategory?.drawerBoolean = false}
     }
     
 }

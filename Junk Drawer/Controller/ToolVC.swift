@@ -21,8 +21,16 @@ class ToolVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
     
     // load tools from selected drawer
     var selectedDrawer: Drawer? {
-        didSet{
-            print("The selected drawer changed from \(oldValue) to \(selectedDrawer?.title)")
+        didSet {
+            print("Tools loaded from DRAWER \(String(describing: selectedDrawer?.title))")
+            loadTools()
+        }
+    }
+    
+    // load tools from selected category
+    var selectedCategory: Category? {
+        didSet {
+            print("Tools loaded from CATEGORY \(String(describing: selectedCategory?.title))")
             loadTools()
         }
     }
@@ -32,9 +40,7 @@ class ToolVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
     
     // storyboard connections
     @IBOutlet var doneButton: UIButton?
-    @IBOutlet var toolCollectionView: UICollectionView?
-    
-    let defaults = UserDefaults.standard
+    @IBOutlet var toolCollectionView: UICollectionView!
     
     // MARK: - ⎡ 🎂 APP LIFECYCLE METHODS ⎦
     // ———————————————————————————————————————————————————————————————————
@@ -58,14 +64,15 @@ class ToolVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
         self.toolCollectionView?.collectionViewLayout = layout
         
         // there are no tools upon start ∴ show an alert
-        if allTools?.count == 0 {
+        if toolCollectionView?.numberOfItems(inSection: 0) == 0 {
             noTools()
         }
+        
     }
 
-    // set large title to current location
-    override func viewWillAppear(_ animated: Bool) {  // appears after viewDidLoad()
+    override func viewWillAppear(_ animated: Bool) {
         title = selectedDrawer?.title
+        
     }
     
     // MARK: - ⎡ 📝 COLLECTION VIEW DATASOURCE METHODS ⎦
@@ -76,9 +83,9 @@ class ToolVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
         return 1
     }
     
-    // set number of cells in collection equal to number of tools; if number of tools == nil, set to 0
+    // set number of cells in collection equal to number of tools or 0
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return allTools?.count ?? 1
+        return allTools?.count ?? 0
     }
     
     // create a cell from the CollectionViewCell class
@@ -95,16 +102,50 @@ class ToolVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
     
     // there are no tools in the selected drawer ∴ show an alert
     func noTools() {
-        let alertVC = PMAlertController(title: "You haven't added any tools yet.", description: "Add tools using the plus sign above or quick add a tool using just a name below.", image: UIImage(named: ""), style: .alert)
+        var textField = UITextField()
+        let alertVC = PMAlertController(title: "You haven't added any tools yet.", description: "Add a tool using the plus sign above or quick add a tool using just a name below.", image: UIImage(named: ""), style: .alert)
         
-        alertVC.addTextField { (textField) in
-            textField?.placeholder = "Quick add..."
+        alertVC.addTextField { (field) in
+            textField = field!
+            textField.placeholder = "Quick add..."
         }
         
-        alertVC.addAction(PMAlertAction(title: "OK", style: .default, action: { () in
+        alertVC.addAction(PMAlertAction(title: "Save Tool", style: .default, action: { () in
+            
+            // parent is of type category ∴ add tool to current category
+            if let currentCategory = self.selectedCategory {
+                do {
+                    try self.realm.write {
+                        let newTool = Tool()
+                        newTool.title = textField.text ?? ""
+                        self.realm.add(newTool)
+                        currentCategory.tools.append(newTool)
+                        self.realm.add(newTool)
+                    }
+                } catch {
+                    print("Error saving new tool \(error)")
+                }
+            }
+            
+            // parent is of type drawer ∴ add tool to current drawer
+            if let currentDrawer = self.selectedDrawer {
+                do {
+                    try self.realm.write {
+                        let newTool = Tool()
+                        newTool.title = textField.text ?? ""
+                        currentDrawer.tools.append(newTool)
+                        self.realm.add(newTool)
+                    }
+                } catch {
+                    print("Error saving new tool \(error)")
+                }
+            }
+            
+            self.loadTools()
+            
         }))
         
-        alertVC.addAction(PMAlertAction(title: "Cancel", style: .cancel, action: { () -> Void in
+        alertVC.addAction(PMAlertAction(title: "No Thanks", style: .cancel, action: { () -> Void in
         }))
         
         self.present(alertVC, animated: true, completion: nil)
@@ -134,16 +175,16 @@ class ToolVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
     }
     
     // go to ToolDetailVC or ToolAddVC based on user selection
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if segue.identifier == "goToDetail" {
-//            let destinationVC = segue.destination as! ToolDetailVC
-//            if let indexPath = toolCollectionView?.indexPathsForSelectedItems?.first {
-//                destinationVC.selectedTool = allTools?[indexPath.row]
-//            }
-//        } else if segue.identifier == "goToAdd" {
-//            _ = segue.destination as! ToolAddVC
-//        }
-//    }
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "goToDetail" {
+            let destinationVC = segue.destination as! ToolDetailVC
+            if let indexPath = toolCollectionView?.indexPathsForSelectedItems?.first {
+                destinationVC.selectedTool = allTools?[indexPath.row]
+            }
+        } else if segue.identifier == "goToAdd" {
+            _ = segue.destination as! ToolAddVC
+        }
+    }
     
     // MARK: - ⎡ ⭐️ CRUD OPERATIONS ⎦
     // ———————————————————————————————————————————————————————————————————
@@ -155,8 +196,17 @@ class ToolVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
     
     // 👀 READ :: retrieve tools from realm
     func loadTools() {
-        // allTools = selectedDrawer?.tools.sorted(byKeyPath: "title", ascending: false)
-        allTools = selectedDrawer?.tools.sorted(byKeyPath: "title", ascending: false)
+        // load tools from drawer or category based on drawer boolean
+        if let currentCategory = selectedCategory {
+            if currentCategory.drawerBoolean == true {
+                allTools = selectedDrawer?.tools.sorted(byKeyPath: "title", ascending: false)
+            } else {
+                allTools = selectedCategory?.tools.sorted(byKeyPath: "title", ascending: false)
+            }
+        } else {
+            allTools = selectedDrawer?.tools.sorted(byKeyPath: "title", ascending: false)
+        }
+        
         toolCollectionView?.reloadData()
     }
 }

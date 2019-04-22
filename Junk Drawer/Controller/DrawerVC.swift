@@ -28,6 +28,8 @@ class DrawerVC: SwipeCellVC, UIImagePickerControllerDelegate {
         }
     }
     
+    private var noDrawersAlertShown = true
+    
     // storyboard connection
     @IBOutlet var drawerTableView: UITableView!
     
@@ -40,29 +42,32 @@ class DrawerVC: SwipeCellVC, UIImagePickerControllerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.setStatusBarStyle(UIStatusBarStyleContrast)  // update status bar with a contrasted color (white or black)
+        
         tableView.rowHeight = 80
         print("Number of rows is \(allDrawers?.count)")
-        // there are no drawers upon start ∴ show an alert
+        
 
     }
     
-     // set large title to current location
+     // set large title and tint to current location
     override func viewWillAppear(_ animated: Bool) {  // appears after viewDidLoad()
         title = selectedCategory?.title
         
         guard let colorHex = selectedCategory?.tint else {fatalError()}
+        
         updateNavBar(withHexCode: colorHex)
         
+        // there are no drawers upon start ∴ show an alert
         if allDrawers?.count == 0 {
             noDrawers()
         }
+        
     }
     
     // runs when app is dismissed
     override func viewWillDisappear(_ animated: Bool) {
-        UIView.animate(withDuration: 1.0) {
-            navigationController?.navigationBar.barTintColor = UIColor(named: "customBlack")
-        }
+        updateNavBar(withHexCode: "323643")
     }
     
     // MARK: - ⎡ 🗺 NAV BAR SETUP METHODS ⎦
@@ -71,7 +76,10 @@ class DrawerVC: SwipeCellVC, UIImagePickerControllerDelegate {
     func updateNavBar(withHexCode colorHexCode: String) {
         guard let navBar = navigationController?.navigationBar else {fatalError("Navigation controller does not exist.")}
         guard let navBarColor = UIColor(hexString: colorHexCode) else {fatalError()}
-        navBar.barTintColor = navBarColor                                 // background color
+        navBar.barTintColor = navBarColor        // background color
+        
+        navBar.tintColor = UIColor(contrastingBlackOrWhiteColorOn:navBarColor, isFlat: true)  // navigation buttons color
+        navBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(contrastingBlackOrWhiteColorOn: navBarColor, isFlat: true)]
     }
     
     // MARK: - ⎡ 📝 TABLEVIEW DATASOURCE METHODS ⎦

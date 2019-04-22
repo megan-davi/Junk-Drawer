@@ -7,13 +7,13 @@
 //
 
 import UIKit
+import ChameleonFramework
 
 class WelcomeVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
     }
     
     @IBAction func loginPressed(_ sender: Any) {

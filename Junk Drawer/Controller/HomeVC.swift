@@ -78,21 +78,12 @@ class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
         return allCategories?.count ?? 0    // if # of categories is nil, return 0
     }
 
-    // create a cell from the CollectionViewCell class; if # of cells == 1, show no category text
+    // create a cell from the CollectionViewCell class
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "customCell", for: indexPath) as! CollectionViewCell
         
         cell.title.text = allCategories?[indexPath.row].title
-        cell.tint.backgroundColor = UIColor(hexString: (allCategories?[indexPath.row].tint))
-        
-//        if ((allCategories?[indexPath.row].image) != nil) {
-//
-//            cell.image.backgroundColor = UIColor.red
-//        } else {
-//
-//            cell.tint.backgroundColor = UIColor.red
-//            cell.image.backgroundColor = UIColor.red//  UIColor(hexString: allCategories?[indexPath.row].tint)
-//        }
+        cell.image.backgroundColor = UIColor(hexString: (allCategories?[indexPath.row].tint))
         
         cell.deleteButton.isHidden = true
         
