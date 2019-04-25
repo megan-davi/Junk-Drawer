@@ -48,7 +48,7 @@ class ToolVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        toolCollectionView?.reloadData()
+        toolCollectionView.reloadData()
         
         // change navigation bar and collection view appearances
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
@@ -118,7 +118,6 @@ class ToolVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
                     try self.realm.write {
                         let newTool = Tool()
                         newTool.title = textField.text ?? ""
-                        self.realm.add(newTool)
                         currentCategory.tools.append(newTool)
                         self.realm.add(newTool)
                     }

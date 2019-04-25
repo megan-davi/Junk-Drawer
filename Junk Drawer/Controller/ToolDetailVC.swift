@@ -17,32 +17,31 @@ class ToolDetailVC: UIViewController {
     @IBOutlet var expBoolean: UISwitch!
     @IBOutlet var descriptionField: UITextView!
     
-    
+    let realm = try! Realm()
+    var selectedTool: Tool?
+
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        loadToolDetails()
     }
     
     // set large title to current location
     override func viewWillAppear(_ animated: Bool) {  // appears after viewDidLoad()
         title = selectedTool?.title
-    }
-    
-    let realm = try! Realm()
-    var selectedTool: Tool? {
-        didSet{
-            loadToolDetails()
-        }
+        titleLabel.text = selectedTool?.title
+        //quantityLabel.text = String(selectedTool?.quantity)
+        expBoolean.isOn = (selectedTool?.expirationBoolean)!
+        descriptionField.text = selectedTool?.desc
     }
     
     // 👀 READ :: retrieve tool details from realm
-    func loadToolDetails() {
-        //titleLabel.text = selectedTool?.title
-        //quantityLabel.text = String(selectedTool?.quantity)
-        //expBoolean.isOn = selectedTool?.expirationBoolean ?? true
-        //descriptionField.text = selectedTool?.desc
-    }
+//    func loadToolDetails() {
+//        if let thisTool = selectedTool {
+//            titleLabel.text = thisTool.title
+//            //quantityLabel.text = String(thisTool.quantity)
+//            //expBoolean.isOn = thisTool.expirationBoolean
+//            //descriptionField.text = thisTool.desc
+//        }
+//    }
     
 
 }

@@ -23,6 +23,9 @@ class Tool: Object {
     // @objc dynamic var tint = ??
     // @objc dynamic var location = ??
     
-    let tags = List<Tag>()     // the children of this class are an array of type Tag
-    var parentCategory = LinkingObjects(fromType: Drawer.self, property: "tools")    // parent is the Drawer class
+    // the children of this class are an array of type Tag
+    let tags = List<Tag>()
+    
+    // parent is the Drawer 
+    var parentCategory = LinkingObjects(fromType: Drawer.self, property: "tools")
 }

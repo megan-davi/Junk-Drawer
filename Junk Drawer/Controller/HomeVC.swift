@@ -11,7 +11,7 @@ import RealmSwift
 import PMAlertController
 import ChameleonFramework
 
-class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIImagePickerControllerDelegate {
+class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIImagePickerControllerDelegate, UISearchBarDelegate {
     
     // MARK: - ⎡ 🌎 GLOBAL VARIABLES ⎦
     // ———————————————————————————————————————————————————————————————————
@@ -20,12 +20,15 @@ class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
     let realm = try! Realm()
     var allCategories: Results<Category>?
     
+    var allTools: Results<Tool>?
+    
     // collection view cell spacing
     let spacing: CGFloat = 16.0
     
     // storyboard connections
     @IBOutlet var doneButton: UIButton!
     @IBOutlet var categoryCollectionView: UICollectionView!
+    @IBOutlet var searchTableView: UITableView!
     
     // MARK: - ⎡ 🎂 APP LIFECYCLE METHODS ⎦
     // ———————————————————————————————————————————————————————————————————
@@ -43,17 +46,24 @@ class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
         self.navigationItem.setHidesBackButton(true, animated: false)
     
         doneButton.isHidden = true
+        searchTableView.isHidden = true
         
         // there are no categories upon start ∴ show an alert
         if allCategories?.count == 0 {
             noCategories()
         }
         
+        // collection view spacing
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: spacing, left: spacing, bottom: spacing, right: spacing)
         layout.minimumLineSpacing = spacing
         layout.minimumInteritemSpacing = spacing
-        self.categoryCollectionView?.collectionViewLayout = layout
+        self.categoryCollectionView.collectionViewLayout = layout
+        
+        let searchBarController: UISearchController
+        
+       
+
         
     }
     
@@ -127,6 +137,11 @@ class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
             }
         } else if segue.identifier == "goToEditCategory" {
             _ = segue.destination as! EditCategoryVC
+        } else if segue.identifier == "goToToolDetail" {
+            let destinationVC = segue.destination as! ToolDetailVC
+            if let indexPath = searchTableView.indexPathForSelectedRow {
+                destinationVC.selectedTool = allTools?[indexPath.row]
+            }
         }
     }
     
@@ -213,6 +228,53 @@ class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
             }
         }
     }
+    
+    // MARK: - ⎡ 🔍 SEARCH BAR METHODS ⎦
+    // ———————————————————————————————————————————————————————————————————
+    
+    // search , look for all of the data entries where the search bar text matches the data
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        searchTableView.isHidden = false
+        allTools = allTools?.filter("title CONTAINS[cd] %@", searchBar.text!).sorted(byKeyPath: "dateCreated", ascending: true)    // search is case and diacritic insensitive
+        searchTableView.reloadData()
+    }
+    
+    // when the search bar text is cleared, return to original list, dismiss keyboard, and deselect search bar
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchBar.text?.count == 0 {
+            loadCategories()
+            DispatchQueue.main.async {
+                searchBar.resignFirstResponder()
+            }
+        }
+    }
+    
+    // MARK: - ⎡ 📝 SEARCH TABLEVIEW DATASOURCE METHODS ⎦
+    // ———————————————————————————————————————————————————————————————————
+    
+    // set number of rows in table equal to tools found from search
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return allTools?.count ?? 0
+    }
+    
+    // set row equal to item title property and add a checkmark if done property = true, else say there are no items added
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        //let cell = searchTableView(tableView, cellForRowAt: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "searchCell", for: indexPath)
+        return cell
+    }
+    
+    // MARK: - ⎡ 👆 SEARCH TABLE VIEW DELEGATE METHODS ⎦
+    // ———————————————————————————————————————————————————————————————————
+    
+    // user selects a drawer ∴ segue to that drawer's associated tools
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        //tableView.deselectRow(at: indexPath, animated: true)  // allows gray to fade away
+        print("goToTool segue")
+        performSegue(withIdentifier: "goToTool", sender: self)
+    }
+    
 }
 
 
