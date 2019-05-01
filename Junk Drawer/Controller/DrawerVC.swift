@@ -19,16 +19,17 @@ class DrawerVC: SwipeCellVC, UIImagePickerControllerDelegate {
     // pull categories from Realm class
     let realm = try! Realm()
     var allDrawers: Results<Drawer>?
+    var allCategories: Results<Category>?
     
     // selected category changes ∴ load its drawers
     var selectedCategory: Category? {
         didSet {
-            print("The selected category changed from \(oldValue) to \(selectedCategory?.title)")
+            print("The selected category changed from \(String(describing: oldValue)) to \(String(describing: selectedCategory?.title))")
             loadDrawers()
         }
     }
     
-    private var noDrawersAlertShown = true
+    private var alertShown = false
     
     // storyboard connection
     @IBOutlet var drawerTableView: UITableView!
@@ -58,16 +59,16 @@ class DrawerVC: SwipeCellVC, UIImagePickerControllerDelegate {
         
         updateNavBar(withHexCode: colorHex)
         
-        // there are no drawers upon start ∴ show an alert
-        if allDrawers?.count == 0 {
+        // there are no drawers upon start ∴ show an alert, but only once
+        if selectedCategory?.drawers.count == 0 && alertShown == false {
             noDrawers()
         }
-        
     }
     
     // runs when app is dismissed
     override func viewWillDisappear(_ animated: Bool) {
         updateNavBar(withHexCode: "323643")
+        alertShown = true
     }
     
     // MARK: - ⎡ 🗺 NAV BAR SETUP METHODS ⎦
@@ -79,7 +80,7 @@ class DrawerVC: SwipeCellVC, UIImagePickerControllerDelegate {
         navBar.barTintColor = navBarColor        // background color
         
         navBar.tintColor = UIColor(contrastingBlackOrWhiteColorOn:navBarColor, isFlat: true)  // navigation buttons color
-        navBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(contrastingBlackOrWhiteColorOn: navBarColor, isFlat: true)]
+        navBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor(contrastingBlackOrWhiteColorOn: navBarColor, isFlat: true) ?? [NSAttributedString.Key.foregroundColor: UIColor(named: "customBlack")]]
     }
     
     // MARK: - ⎡ 📝 TABLEVIEW DATASOURCE METHODS ⎦
@@ -107,19 +108,16 @@ class DrawerVC: SwipeCellVC, UIImagePickerControllerDelegate {
     
     // user selects a drawer ∴ segue to that drawer's associated tools
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //tableView.deselectRow(at: indexPath, animated: true)  // allows gray to fade away
-        print("goToTool segue")
         performSegue(withIdentifier: "goToTool", sender: self)
     }
     
-    // go to ToolVC or camera?? based on user selection
+    // go to ToolVC or EditCategoryVC based on user selection
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        print("Prepare for segue from drawerVC ran")
         if segue.identifier == "goToTool" {
             let destinationVC = segue.destination as! ToolVC
             if let indexPath = tableView.indexPathForSelectedRow {
                 destinationVC.selectedDrawer = allDrawers?[indexPath.row]
-                print("Selected drawer set to index path")
+                destinationVC.selectedCategory = allCategories?[indexPath.row]
             }
         } else if segue.identifier == "goToEditCategory" {
             _ = segue.destination as! EditCategoryVC
@@ -193,17 +191,6 @@ class DrawerVC: SwipeCellVC, UIImagePickerControllerDelegate {
         self.present(alertVC, animated: true, completion: nil)
     }
     
-    func save(drawer: Drawer) {
-        do {
-            try realm.write {
-                realm.add(drawer)
-            }
-        } catch {
-            print("Error saving drawer \(error)")
-        }
-        drawerTableView.reloadData()
-    }
-    
     // 👀 READ :: retrieve drawers from realm
     func loadDrawers() {
         allDrawers = selectedCategory?.drawers.sorted(byKeyPath: "title", ascending: false)
@@ -224,23 +211,4 @@ class DrawerVC: SwipeCellVC, UIImagePickerControllerDelegate {
 //    }
 
 
-//extension DrawerVC: UISearchBarDelegate {
-//    // MARK: - ⎡ 🔍 SEARCH BAR METHODS ⎦
-//    // ———————————————————————————————————————————————————————————————————
-//    
-//    // when the search button is pressed, look for all of the data entries where the search bar text matches the data
-//    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-//        allDrawers = allDrawers?.filter("title CONTAINS[cd] %@", searchBar.text!).sorted(byKeyPath: "dateCreated", ascending: true)    // search is case and diacritic insensitive
-//        tableView.reloadData()
-//    }
-//    
-//    // when the search bar text is cleared, return to original list, dismiss keyboard, and deselect search bar
-//    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-//        if searchBar.text?.count == 0 {
-//            loadDrawers()
-//            DispatchQueue.main.async {
-//                searchBar.resignFirstResponder()
-//            }
-//        }
-//    }
-//}
+

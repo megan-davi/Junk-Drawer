@@ -14,7 +14,7 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "A3A849E5AE4059D4920594CC4549C6B2"
+               BlueprintIdentifier = "B3C2D15CAD162FB85B4E9292BB685634"
                BuildableName = "Pods_Junk_Drawer.framework"
                BlueprintName = "Pods-Junk Drawer"
                ReferencedContainer = "container:Pods.xcodeproj">
@@ -45,7 +45,7 @@
       <MacroExpansion>
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "A3A849E5AE4059D4920594CC4549C6B2"
+            BlueprintIdentifier = "B3C2D15CAD162FB85B4E9292BB685634"
             BuildableName = "Pods_Junk_Drawer.framework"
             BlueprintName = "Pods-Junk Drawer"
             ReferencedContainer = "container:Pods.xcodeproj">

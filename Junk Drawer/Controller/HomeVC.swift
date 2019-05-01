@@ -10,16 +10,16 @@ import UIKit
 import RealmSwift
 import PMAlertController
 import ChameleonFramework
+import Vision
 
-class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIImagePickerControllerDelegate, UISearchBarDelegate {
+class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIImagePickerControllerDelegate, UISearchBarDelegate, UINavigationControllerDelegate {
     
     // MARK: - ⎡ 🌎 GLOBAL VARIABLES ⎦
     // ———————————————————————————————————————————————————————————————————
     
-    // pull categories from Realm class
+    // pull categories from Realm class and tools for search bar
     let realm = try! Realm()
     var allCategories: Results<Category>?
-    
     var allTools: Results<Tool>?
     
     // collection view cell spacing
@@ -28,7 +28,9 @@ class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
     // storyboard connections
     @IBOutlet var doneButton: UIButton!
     @IBOutlet var categoryCollectionView: UICollectionView!
-    @IBOutlet var searchTableView: UITableView!
+    @IBOutlet var imageView: UIView!
+    
+    let imagePicker = UIImagePickerController()
     
     // MARK: - ⎡ 🎂 APP LIFECYCLE METHODS ⎦
     // ———————————————————————————————————————————————————————————————————
@@ -46,7 +48,6 @@ class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
         self.navigationItem.setHidesBackButton(true, animated: false)
     
         doneButton.isHidden = true
-        searchTableView.isHidden = true
         
         // there are no categories upon start ∴ show an alert
         if allCategories?.count == 0 {
@@ -60,9 +61,10 @@ class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
         layout.minimumInteritemSpacing = spacing
         self.categoryCollectionView.collectionViewLayout = layout
         
-        let searchBarController: UISearchController
         
-       
+        imagePicker.delegate = self
+        imagePicker.sourceType = .camera // or .photoLibrary
+        imagePicker.allowsEditing = false
 
         
     }
@@ -137,11 +139,8 @@ class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
             }
         } else if segue.identifier == "goToEditCategory" {
             _ = segue.destination as! EditCategoryVC
-        } else if segue.identifier == "goToToolDetail" {
-            let destinationVC = segue.destination as! ToolDetailVC
-            if let indexPath = searchTableView.indexPathForSelectedRow {
-                destinationVC.selectedTool = allTools?[indexPath.row]
-            }
+        } else if segue.identifier == "goToSearch" {
+            _ = segue.destination as! SearchVC
         }
     }
     
@@ -229,50 +228,50 @@ class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
         }
     }
     
-    // MARK: - ⎡ 🔍 SEARCH BAR METHODS ⎦
+    // MARK: - ⎡ 📸 IMAGE PICKER METHODS ⎦
     // ———————————————————————————————————————————————————————————————————
     
-    // search , look for all of the data entries where the search bar text matches the data
-    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        searchTableView.isHidden = false
-        allTools = allTools?.filter("title CONTAINS[cd] %@", searchBar.text!).sorted(byKeyPath: "dateCreated", ascending: true)    // search is case and diacritic insensitive
-        searchTableView.reloadData()
+    @IBAction func cameraTapped(_ sender: Any) {
+        present(imagePicker, animated: true, completion: nil)
     }
     
-    // when the search bar text is cleared, return to original list, dismiss keyboard, and deselect search bar
-    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        if searchBar.text?.count == 0 {
-            loadCategories()
-            DispatchQueue.main.async {
-                searchBar.resignFirstResponder()
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        if let userPickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+            //imageView.image = userPickedImage
+            
+            // convert user picked image to CIImage
+            guard let ciImage = CIImage(image: userPickedImage) else {
+                fatalError("Could not convert to CIImage")
+            }
+            
+            // pass into detect method
+            detect(image: ciImage)
+        }
+        
+        imagePicker.dismiss(animated: true, completion: nil)
+    }
+    
+    func detect(image: CIImage) {
+        // load the image recognition model
+        guard let model = try? VNCoreMLModel(for: Inceptionv3().model) else {
+            fatalError("Loading CoreML Model Failed")
+        }
+        
+        // ask model to classify image that is passed into it
+        let request = VNCoreMLRequest(model: model) { (request, error) in
+            guard let results = request.results as? [VNClassificationObservation] else {
+                fatalError("Model failed to process image")
+            }
+            
+            
+            
+            let handler = VNImageRequestHandler(ciImage: image)
+            do {
+                try handler.perform([request])
+            } catch {
+                print("Error - \(error)")
             }
         }
-    }
-    
-    // MARK: - ⎡ 📝 SEARCH TABLEVIEW DATASOURCE METHODS ⎦
-    // ———————————————————————————————————————————————————————————————————
-    
-    // set number of rows in table equal to tools found from search
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return allTools?.count ?? 0
-    }
-    
-    // set row equal to item title property and add a checkmark if done property = true, else say there are no items added
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        //let cell = searchTableView(tableView, cellForRowAt: indexPath)
-        let cell = tableView.dequeueReusableCell(withIdentifier: "searchCell", for: indexPath)
-        return cell
-    }
-    
-    // MARK: - ⎡ 👆 SEARCH TABLE VIEW DELEGATE METHODS ⎦
-    // ———————————————————————————————————————————————————————————————————
-    
-    // user selects a drawer ∴ segue to that drawer's associated tools
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //tableView.deselectRow(at: indexPath, animated: true)  // allows gray to fade away
-        print("goToTool segue")
-        performSegue(withIdentifier: "goToTool", sender: self)
     }
     
 }

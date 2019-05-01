@@ -102,7 +102,7 @@ open class ColorPickerListView: UIScrollView {
     }
     
     func selectColor(_ colorHex: String) {
-        guard let indexButton = colors.index(of: colorHex) else {
+        guard let indexButton = colors.firstIndex(of: colorHex) else {
            assertionFailure("Wrong Hex color format for \(colorHex)")
            return
         }
@@ -115,15 +115,15 @@ open class ColorPickerListView: UIScrollView {
     }
     
     @objc func selectColorButton(_ colorPickerButton: ColorPickerButton) {
-        let colorPickerButtonIndex = colorPickerButtons.index(of: colorPickerButton)!
-        if let selectedButton = self.selectedButton, allowsDeselection && colorPickerButtons.index(of: selectedButton)! ==  colorPickerButtonIndex {
+        let colorPickerButtonIndex = colorPickerButtons.firstIndex(of: colorPickerButton)!
+        if let selectedButton = self.selectedButton, allowsDeselection && colorPickerButtons.firstIndex(of: selectedButton)! ==  colorPickerButtonIndex {
             self.selectedButton = nil
             colorSelectionAnimation.colorPicker(self, deselectAtIndex: colorPickerButtonIndex)
              colorPickerDelegate?.colorPicker(self, deselectedColor: colors[colorPickerButtonIndex])
-        } else if let selectedButton = self.selectedButton, colorPickerButtons.index(of: selectedButton)! ==  colorPickerButtonIndex {
+        } else if let selectedButton = self.selectedButton, colorPickerButtons.firstIndex(of: selectedButton)! ==  colorPickerButtonIndex {
             // Do noting for this case
-        } else if let selectedButton = self.selectedButton, colorPickerButtons.index(of: selectedButton)! !=  colorPickerButtonIndex {
-            colorSelectionAnimation.colorPicker(self, changeFromIndex: colorPickerButtons.index(of: selectedButton)! , toIndex: colorPickerButtonIndex)
+        } else if let selectedButton = self.selectedButton, colorPickerButtons.firstIndex(of: selectedButton)! !=  colorPickerButtonIndex {
+            colorSelectionAnimation.colorPicker(self, changeFromIndex: colorPickerButtons.firstIndex(of: selectedButton)! , toIndex: colorPickerButtonIndex)
             self.selectedButton = colorPickerButton
             colorPickerDelegate?.colorPicker(self, selectedColor: colors[colorPickerButtonIndex])
         }

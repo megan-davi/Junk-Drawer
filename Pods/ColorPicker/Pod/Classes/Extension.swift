@@ -28,7 +28,7 @@ public extension UIColor {
             return nil
         }
         
-        if ((cString.characters.count) != 6) {
+        if ((cString.count) != 6) {
             return nil
         }
         
@@ -57,7 +57,7 @@ public extension UIColor {
 
 extension String {
     func subString(_ from: Int, to: Int) -> String {
-        let range = self.characters.index(self.startIndex, offsetBy: from)..<self.characters.index(self.startIndex, offsetBy: to)
+        let range = self.index(self.startIndex, offsetBy: from)..<self.index(self.startIndex, offsetBy: to)
         return self.substring(with: range)
     }
     

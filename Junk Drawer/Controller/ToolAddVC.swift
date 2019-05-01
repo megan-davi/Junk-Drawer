@@ -40,19 +40,23 @@ class ToolAddVC: UIViewController {
         // change navigation bar appearance
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         
-        
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
         
     }
     
+    
     @objc func keyboardWillShow(notification: NSNotification) {
-        if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
-            if self.view.frame.origin.y == 0 {
-                self.view.frame.origin.y -= keyboardSize.height
+        func textViewDidBeginEditing(_ textView: UITextView) {
+            if let keyboardSize = (notification.userInfo?[UIResponder.keyboardFrameBeginUserInfoKey] as? NSValue)?.cgRectValue {
+                if self.view.frame.origin.y == 0 {
+                    self.view.frame.origin.y -= keyboardSize.height + 250
+                }
             }
         }
     }
+    
+    
     
     @objc func keyboardWillHide(notification: NSNotification) {
         if self.view.frame.origin.y != 0 {
@@ -82,7 +86,6 @@ class ToolAddVC: UIViewController {
                     //newTool.expirationBoolean = expBoolean
                     //newTool.desc = descriptionField.text ?? ""
                     currentDrawer.tools.append(newTool)
-                    self.realm.add(newTool)
                 }
             } catch {
                 print("Error saving new tool under drawer \(error)")
@@ -99,7 +102,6 @@ class ToolAddVC: UIViewController {
                     //newTool.expirationBoolean = expBoolean
                     //newTool.desc = descriptionField.text ?? ""
                     currentCategory.tools.append(newTool)
-                    self.realm.add(newTool)
                 }
             } catch {
                 print("Error saving new tool under category \(error)")

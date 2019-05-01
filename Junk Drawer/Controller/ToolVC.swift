@@ -18,6 +18,8 @@ class ToolVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
     // pull tools from Realm class
     let realm = try! Realm()
     var allTools: Results<Tool>?
+    var allDrawers: Results<Drawer>?
+    var allCategories: Results<Category>?
     
     // load tools from selected drawer
     var selectedDrawer: Drawer? {
@@ -181,7 +183,11 @@ class ToolVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
                 destinationVC.selectedTool = allTools?[indexPath.row]
             }
         } else if segue.identifier == "goToAdd" {
-            _ = segue.destination as! ToolAddVC
+            let destinationVC = segue.destination as! ToolAddVC
+            if let indexPath = toolCollectionView?.indexPathsForSelectedItems?.first {
+                destinationVC.selectedDrawer = allDrawers?[indexPath.row]
+                destinationVC.selectedCategory = allCategories?[indexPath.row]
+            }
         }
     }
     
