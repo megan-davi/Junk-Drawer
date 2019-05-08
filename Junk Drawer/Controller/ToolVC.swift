@@ -5,7 +5,6 @@
 //  Created by Megan Brown on 3/26/19.
 //  Copyright © 2019 Megan Brown. All rights reserved.
 //
-
 import UIKit
 import RealmSwift
 import PMAlertController
@@ -41,7 +40,6 @@ class ToolVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
     let spacing: CGFloat = 1
     
     // storyboard connections
-    @IBOutlet var doneButton: UIButton?
     @IBOutlet var toolCollectionView: UICollectionView!
     
     // MARK: - ⎡ 🎂 APP LIFECYCLE METHODS ⎦
@@ -56,8 +54,6 @@ class ToolVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         navigationController?.navigationItem.hidesBackButton = true
         
-        doneButton?.isHidden = true
-        
         // equally space collection view
         let layout = UICollectionViewFlowLayout()
         layout.sectionInset = UIEdgeInsets(top: spacing, left: spacing, bottom: spacing, right: spacing)
@@ -71,7 +67,7 @@ class ToolVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
         }
         
     }
-
+    
     override func viewWillAppear(_ animated: Bool) {
         title = selectedDrawer?.title
         
@@ -96,7 +92,6 @@ class ToolVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
         
         cell.title.text = allTools?[indexPath.row].title ?? ""
         cell.image.image = UIImage(named: (allTools?[indexPath.row].image ?? "garage") )
-        cell.deleteButton.isHidden = true
         cell.backgroundColor = UIColor.cyan
         
         return cell
@@ -175,6 +170,10 @@ class ToolVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
         performSegue(withIdentifier: "goToDetail", sender: self)
     }
     
+    @IBAction func searchTapped(_ sender: Any) {
+        performSegue(withIdentifier: "goToSearch", sender: self)
+    }
+    
     // go to ToolDetailVC or ToolAddVC based on user selection
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "goToDetail" {
@@ -188,6 +187,8 @@ class ToolVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
                 destinationVC.selectedDrawer = allDrawers?[indexPath.row]
                 destinationVC.selectedCategory = allCategories?[indexPath.row]
             }
+        } else if segue.identifier == "goToSearch" {
+            _ = segue.destination as! SearchVC
         }
     }
     
@@ -215,4 +216,5 @@ class ToolVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
         toolCollectionView?.reloadData()
     }
 }
+
 

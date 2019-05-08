@@ -5,7 +5,6 @@
 //  Created by Megan Brown on 3/12/19.
 //  Copyright © 2019 Megan Brown. All rights reserved.
 //
-
 import UIKit
 import RealmSwift
 import PMAlertController
@@ -48,10 +47,10 @@ class DrawerVC: SwipeCellVC, UIImagePickerControllerDelegate {
         tableView.rowHeight = 80
         print("Number of rows is \(allDrawers?.count)")
         
-
+        
     }
     
-     // set large title and tint to current location
+    // set large title and tint to current location
     override func viewWillAppear(_ animated: Bool) {  // appears after viewDidLoad()
         title = selectedCategory?.title
         
@@ -111,6 +110,10 @@ class DrawerVC: SwipeCellVC, UIImagePickerControllerDelegate {
         performSegue(withIdentifier: "goToTool", sender: self)
     }
     
+    @IBAction func searchTapped(_ sender: Any) {
+        performSegue(withIdentifier: "goToSearch", sender: self)
+    }
+    
     // go to ToolVC or EditCategoryVC based on user selection
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "goToTool" {
@@ -121,6 +124,8 @@ class DrawerVC: SwipeCellVC, UIImagePickerControllerDelegate {
             }
         } else if segue.identifier == "goToEditCategory" {
             _ = segue.destination as! EditCategoryVC
+        } else if segue.identifier == "goToSearch" {
+            _ = segue.destination as! SearchVC
         }
     }
     
@@ -154,7 +159,7 @@ class DrawerVC: SwipeCellVC, UIImagePickerControllerDelegate {
         
         self.present(alertVC, animated: true, completion: nil)
     }
-
+    
     
     // MARK: - ⎡ ⭐️ CRUD OPERATIONS ⎦
     // ———————————————————————————————————————————————————————————————————
@@ -197,7 +202,7 @@ class DrawerVC: SwipeCellVC, UIImagePickerControllerDelegate {
         tableView.reloadData()
     }
 }
-    
+
 //    override func updateModel(at indexPath: IndexPath) {
 //        if let drawer = allDrawers?[indexPath.row] {
 //            do {
@@ -209,6 +214,3 @@ class DrawerVC: SwipeCellVC, UIImagePickerControllerDelegate {
 //            }
 //        }
 //    }
-
-
-

@@ -9,60 +9,91 @@
 import UIKit
 import RealmSwift
 
-class SearchVC: UITableViewController {
+class SearchVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UISearchBarDelegate {
     
     // pull tools from Realm class
     let realm = try! Realm()
     var allTools: Results<Tool>?
     
+    @IBOutlet var searchTableView: UITableView!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        loadTools()
+        
+        // setup the search controller
         let searchBar = UISearchBar()
         searchBar.sizeToFit()
+        searchBar.placeholder = "Search by tool or tag..."
         navigationItem.titleView = searchBar
+        navigationItem.leftBarButtonItem?.title = ""
+        
     }
     
     // MARK: - ⎡ 📝 TABLEVIEW DATASOURCE METHODS ⎦
     // ———————————————————————————————————————————————————————————————————
     
     // set number of rows in table equal to number of items OR 1 if number of items is 0 or nil (in order to show "no items added" message)
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return allTools?.count ?? 0
     }
     
     // set row equal to item title property and add a checkmark if done property = true, else say there are no items added
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "searchCell", for: indexPath)
+
+        print("IMAGE", String(describing: allTools?[indexPath.row].self.image))
         
-        cell.textLabel!.text = allTools?[indexPath.row].title
-        //cell.detailTextLabel!.text = candy.category
+        cell.imageView?.image = UIImage(named: allTools?[indexPath.row].image ?? "garage")
+        cell.textLabel?.text = allTools?[indexPath.row].title
+        cell.detailTextLabel?.text = "Located in \(String(describing: allTools?[indexPath.row].self.parentCategory.first?.title)) in \(String(describing: allTools?[indexPath.row].self.parentCategory[1].title))"
+        
+        print(allTools?[indexPath.row].self.parentCategory)
+        
         return cell
     }
     
     // MARK: - ⎡ 👆 TABLE VIEW DELEGATE METHODS ⎦
     // ———————————————————————————————————————————————————————————————————
     
-    // user selects a drawer ∴ segue to that drawer's associated tools
-    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        performSegue(withIdentifier: "goToTool", sender: self)
+    // user selects a tool ∴ segue to that tool's associated detail view
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        performSegue(withIdentifier: "goToDetail", sender: self)
     }
     
-    // go to ToolVC or EditCategoryVC based on user selection
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if segue.identifier == "goToTool" {
-//            let destinationVC = segue.destination as! ToolVC
-//            if let indexPath = tableView.indexPathForSelectedRow {
-//                destinationVC.selectedDrawer = allDrawers?[indexPath.row]
-//                destinationVC.selectedCategory = allCategories?[indexPath.row]
-//            }
-//        } else if segue.identifier == "goToEditCategory" {
-//            _ = segue.destination as! EditCategoryVC
-//        }
-//    }
+    // direct user to ToolDetailVC
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "goToDetail" {
+            let destinationVC = segue.destination as! ToolDetailVC
+            if let indexPath = searchTableView.indexPathForSelectedRow {
+                destinationVC.selectedTool = allTools?[indexPath.row]
+            }
+        }
+    }
     
+    // MARK: - ⎡ 🔍 SEARCH BAR METHODS ⎦
+    // ———————————————————————————————————————————————————————————————————
     
-
-
+    // when the search button is pressed, look for all of the data entries where the search bar text matches the data
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        allTools = allTools?.filter("title CONTAINS[cd] %@", searchBar.text!).sorted(byKeyPath: "dateCreated", ascending: true)    // search is case and diacritic insensitive
+        searchTableView.reloadData()
+    }
+    
+    // when the search bar text is cleared, return to original list, dismiss keyboard, and deselect search bar
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        if searchBar.text?.count == 0 {
+            loadTools()
+            DispatchQueue.main.async {
+                searchBar.resignFirstResponder()
+            }
+        }
+    }
+    
+    // retrieve tools from realm
+    func loadTools() {
+        allTools = realm.objects(Tool.self)
+        searchTableView.reloadData()
+    }
 }

@@ -26,7 +26,6 @@ class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
     let spacing: CGFloat = 16.0
     
     // storyboard connections
-    @IBOutlet var doneButton: UIButton!
     @IBOutlet var categoryCollectionView: UICollectionView!
     @IBOutlet var imageView: UIView!
     
@@ -47,8 +46,6 @@ class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
         self.navigationItem.setHidesBackButton(true, animated: false)
     
-        doneButton.isHidden = true
-        
         // there are no categories upon start ∴ show an alert
         if allCategories?.count == 0 {
             noCategories()
@@ -97,8 +94,6 @@ class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
         cell.title.text = allCategories?[indexPath.row].title
         cell.image.backgroundColor = UIColor(hexString: (allCategories?[indexPath.row].tint))
         
-        cell.deleteButton.isHidden = true
-        
         // cell border
         cell.layer.borderWidth = 1
         cell.layer.borderColor = UIColor(hexString: allCategories?[indexPath.row].tint)?.cgColor
@@ -128,6 +123,10 @@ class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
     // user selects a category ∴ segue to that category's associated drawers
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         performSegue(withIdentifier: "goToDrawer", sender: self)
+    }
+    
+    @IBAction func searchTapped(_ sender: Any) {
+        performSegue(withIdentifier: "goToSearch", sender: self)
     }
     
     // go to DrawerVC or EditCategoryVC based on user selection

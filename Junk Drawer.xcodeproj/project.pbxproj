@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4405A2A6227FE5FA00BD86A9 /* Test.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4405A2A5227FE5FA00BD86A9 /* Test.swift */; };
 		443583D32235E94B002BB949 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 443583D22235E94B002BB949 /* GoogleService-Info.plist */; };
 		443583DB2235F2B8002BB949 /* Category.swift in Sources */ = {isa = PBXBuildFile; fileRef = 443583DA2235F2B8002BB949 /* Category.swift */; };
 		443583DD2235F2E2002BB949 /* Drawer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 443583DC2235F2E2002BB949 /* Drawer.swift */; };
@@ -33,6 +34,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4405A2A5227FE5FA00BD86A9 /* Test.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Test.swift; sourceTree = "<group>"; };
 		443583D22235E94B002BB949 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		443583DA2235F2B8002BB949 /* Category.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Category.swift; sourceTree = "<group>"; };
 		443583DC2235F2E2002BB949 /* Drawer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Drawer.swift; sourceTree = "<group>"; };
@@ -144,6 +146,7 @@
 				44F62027222F7B5E00264397 /* RegisterVC.swift */,
 				44F6202D222F7CBC00264397 /* HomeVC.swift */,
 				44B3BFDB2275072200FDD23A /* SearchVC.swift */,
+				4405A2A5227FE5FA00BD86A9 /* Test.swift */,
 				446DE37E22386C43000CDA19 /* EditCategoryVC.swift */,
 				446DE37822382775000CDA19 /* DrawerVC.swift */,
 				44FEE81F224AD8910099DE6E /* ToolVC.swift */,
@@ -322,6 +325,7 @@
 				44B5316722795A500047C45F /* Inceptionv3.mlmodel in Sources */,
 				44F6202C222F7B9C00264397 /* WelcomeVC.swift in Sources */,
 				447CEECD2226274B006D3CC8 /* AppDelegate.swift in Sources */,
+				4405A2A6227FE5FA00BD86A9 /* Test.swift in Sources */,
 				44FEE820224AD8910099DE6E /* ToolVC.swift in Sources */,
 				44F6202E222F7CBC00264397 /* HomeVC.swift in Sources */,
 				443583DD2235F2E2002BB949 /* Drawer.swift in Sources */,
