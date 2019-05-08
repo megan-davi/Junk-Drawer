@@ -223,7 +223,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="pb1-op-M7M" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3848.8000000000002" y="987.25637181409309"/>
+            <point key="canvasLocation" x="3849" y="912"/>
         </scene>
         <!--Drawer-->
         <scene sceneID="ShU-5A-i32">
@@ -298,11 +298,12 @@
                                             <rect key="frame" x="0.0" y="0.0" width="102" height="113"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fut-pK-wRu">
-                                                    <rect key="frame" x="0.0" y="30" width="102" height="83"/>
+                                                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="fut-pK-wRu">
+                                                    <rect key="frame" x="0.0" y="0.0" width="102" height="113"/>
                                                 </imageView>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UiP-ss-fn1">
-                                                    <rect key="frame" x="0.0" y="0.0" width="102" height="31"/>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UiP-ss-fn1">
+                                                    <rect key="frame" x="0.0" y="0.0" width="102" height="20.5"/>
+                                                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -310,12 +311,13 @@
                                             </subviews>
                                         </view>
                                         <constraints>
-                                            <constraint firstItem="UiP-ss-fn1" firstAttribute="top" secondItem="aOK-gY-Mpc" secondAttribute="top" id="8ay-ai-Kzf"/>
-                                            <constraint firstAttribute="bottom" secondItem="fut-pK-wRu" secondAttribute="bottom" id="WnK-Wm-T07"/>
-                                            <constraint firstItem="UiP-ss-fn1" firstAttribute="leading" secondItem="aOK-gY-Mpc" secondAttribute="leading" id="Wns-A9-SvO"/>
-                                            <constraint firstItem="fut-pK-wRu" firstAttribute="top" secondItem="aOK-gY-Mpc" secondAttribute="top" constant="30" id="ej5-3w-DEq"/>
-                                            <constraint firstItem="fut-pK-wRu" firstAttribute="leading" secondItem="aOK-gY-Mpc" secondAttribute="leading" id="h65-kG-L7T"/>
-                                            <constraint firstAttribute="bottom" secondItem="UiP-ss-fn1" secondAttribute="bottom" constant="82" id="h81-2q-oWC"/>
+                                            <constraint firstItem="UiP-ss-fn1" firstAttribute="top" secondItem="aOK-gY-Mpc" secondAttribute="top" id="77Y-9O-38c"/>
+                                            <constraint firstAttribute="trailing" secondItem="fut-pK-wRu" secondAttribute="trailing" id="793-QU-oG8"/>
+                                            <constraint firstAttribute="bottom" secondItem="fut-pK-wRu" secondAttribute="bottom" id="Dw2-c9-00s"/>
+                                            <constraint firstItem="UiP-ss-fn1" firstAttribute="leading" secondItem="aOK-gY-Mpc" secondAttribute="leading" id="KFC-mM-8RW"/>
+                                            <constraint firstItem="fut-pK-wRu" firstAttribute="top" secondItem="aOK-gY-Mpc" secondAttribute="top" id="Txz-sy-4Yv"/>
+                                            <constraint firstItem="fut-pK-wRu" firstAttribute="leading" secondItem="aOK-gY-Mpc" secondAttribute="leading" id="X97-SC-1ne"/>
+                                            <constraint firstAttribute="trailing" secondItem="UiP-ss-fn1" secondAttribute="trailing" id="fX4-Ui-IiE"/>
                                         </constraints>
                                         <connections>
                                             <outlet property="image" destination="fut-pK-wRu" id="wgR-Db-Hny"/>
@@ -362,7 +364,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="neA-rB-Ndt" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5615" y="134"/>
+            <point key="canvasLocation" x="5613.6000000000004" y="133.5832083958021"/>
         </scene>
         <!--Tool Detail-->
         <scene sceneID="Gyd-4g-eD3">
@@ -816,7 +818,7 @@
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="searchCell" textLabel="5uv-PR-smy" detailTextLabel="Xhf-Fh-hVd" rowHeight="75" style="IBUITableViewCellStyleSubtitle" id="K7i-d0-76U">
                                 <rect key="frame" x="0.0" y="28" width="375" height="75"/>
                                 <autoresizingMask key="autoresizingMask"/>
-                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="K7i-d0-76U" id="ygC-NH-kvZ" customClass="SearchViewCell" customModule="Junk_Drawer" customModuleProvider="target">
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="K7i-d0-76U" id="ygC-NH-kvZ">
                                     <rect key="frame" x="0.0" y="0.0" width="375" height="74.5"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
@@ -845,8 +847,8 @@
                     </tableView>
                     <navigationItem key="navigationItem" largeTitleDisplayMode="never" id="hbb-8V-MH7"/>
                     <connections>
-                        <outlet property="searchDisplayController" destination="WgF-Hh-2pm" id="euy-Fg-Jzj"/>
-                        <outlet property="searchTableView" destination="ilb-u1-Lcc" id="muk-as-Lnk"/>
+                        <outlet property="searchDisplayController" destination="WgF-Hh-2pm" id="kIP-Zs-JiL"/>
+                        <outlet property="searchTableView" destination="ilb-u1-Lcc" id="ePR-aO-TcA"/>
                         <segue destination="lIR-RT-ZRW" kind="show" identifier="goToDetail" id="wLO-gz-GYv"/>
                     </connections>
                 </tableViewController>
@@ -854,9 +856,6 @@
                 <searchDisplayController id="WgF-Hh-2pm">
                     <connections>
                         <outlet property="delegate" destination="9Hv-Kz-5Ks" id="6S3-f2-wwv"/>
-                        <outlet property="searchContentsController" destination="9Hv-Kz-5Ks" id="GLX-nT-tGq"/>
-                        <outlet property="searchResultsDataSource" destination="9Hv-Kz-5Ks" id="S9s-R7-IVy"/>
-                        <outlet property="searchResultsDelegate" destination="9Hv-Kz-5Ks" id="fhk-K6-qXc"/>
                     </connections>
                 </searchDisplayController>
             </objects>
@@ -960,7 +959,6 @@
                         <outlet property="imageView" destination="tIB-i5-fEz" id="V98-QB-8IL"/>
                         <segue destination="GK2-1Y-L36" kind="show" identifier="goToDrawer" id="l87-hz-lxv"/>
                         <segue destination="6pr-KE-1Ul" kind="show" identifier="goToEditCategory" id="Rb0-A8-i5s"/>
-                        <segue destination="lIR-RT-ZRW" kind="show" identifier="goToToolDetail" id="JnA-dT-afC"/>
                         <segue destination="9Hv-Kz-5Ks" kind="show" identifier="goToSearch" id="bFV-Fz-SMd"/>
                     </connections>
                 </viewController>
@@ -1012,7 +1010,7 @@
     </resources>
     <inferredMetricsTieBreakers>
         <segue reference="fSo-jQ-0CH"/>
-        <segue reference="mWH-eI-6B1"/>
-        <segue reference="JnA-dT-afC"/>
+        <segue reference="bFV-Fz-SMd"/>
+        <segue reference="e5u-pW-oQE"/>
     </inferredMetricsTieBreakers>
 </document>

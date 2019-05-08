@@ -8,6 +8,7 @@
 import UIKit
 import RealmSwift
 import PMAlertController
+import ChameleonFramework
 
 class ToolVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIImagePickerControllerDelegate {
     
@@ -91,8 +92,12 @@ class ToolVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "customCell", for: indexPath) as! CollectionViewCell
         
         cell.title.text = allTools?[indexPath.row].title ?? ""
-        cell.image.image = UIImage(named: (allTools?[indexPath.row].image ?? "garage") )
-        cell.backgroundColor = UIColor.cyan
+        cell.image.backgroundColor = UIColor(hexString: (allTools?[indexPath.row].tint))
+        //cell.image.image = UIImage(named: (allTools?[indexPath.row].image ?? "garage") )
+        
+        // cell border
+        cell.layer.borderWidth = 1
+        cell.layer.borderColor = UIColor(hexString: allTools?[indexPath.row].tint)?.cgColor
         
         return cell
     }
@@ -115,6 +120,7 @@ class ToolVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
                     try self.realm.write {
                         let newTool = Tool()
                         newTool.title = textField.text ?? ""
+                        newTool.tint = UIColor.randomFlat().hexValue()
                         currentCategory.tools.append(newTool)
                         self.realm.add(newTool)
                     }
@@ -129,6 +135,7 @@ class ToolVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
                     try self.realm.write {
                         let newTool = Tool()
                         newTool.title = textField.text ?? ""
+                        newTool.tint = UIColor.randomFlat().hexValue()
                         currentDrawer.tools.append(newTool)
                         self.realm.add(newTool)
                     }

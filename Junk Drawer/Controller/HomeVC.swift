@@ -66,14 +66,6 @@ class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
         
     }
     
-    
-//    @IBAction func doneButtonClicked(_ sender: Any) {
-//            //disable the shake and hide done button
-//            doneButton.isHidden = true
-//
-//            self.categoryCollectionView.reloadData()
-//    }
-    
     // MARK: - ⎡ 📝 COLLECTION VIEW DATASOURCE METHODS ⎦
     // ———————————————————————————————————————————————————————————————————
     
@@ -156,6 +148,7 @@ class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
         alertVC.addAction(PMAlertAction(title: "OK", style: .default, action: { () in
             let newCategory = Category()
             newCategory.title = textField.text ?? ""
+            newCategory.tint = UIColor.randomFlat().hexValue()
             self.save(category: newCategory)
         }))
         

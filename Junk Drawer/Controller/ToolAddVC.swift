@@ -80,7 +80,7 @@ class ToolAddVC: UIViewController {
             do {
                 try self.realm.write {
                     let newTool = Tool()
-                    newTool.title = titleField.text ?? ""
+                    newTool.title = self.titleField.text ?? ""
                     //newTool.image = "garage"
                     //newTool.quantity = 1
                     //newTool.expirationBoolean = expBoolean
@@ -108,6 +108,7 @@ class ToolAddVC: UIViewController {
             }
             
         }
+        
         // go back to previous view controller
         navigationController?.popViewController(animated: true)
         dismiss(animated: true, completion: nil)

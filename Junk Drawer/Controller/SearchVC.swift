@@ -45,11 +45,11 @@ class SearchVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
 
         print("IMAGE", String(describing: allTools?[indexPath.row].self.image))
         
-        cell.imageView?.image = UIImage(named: allTools?[indexPath.row].image ?? "garage")
+        cell.imageView?.image = UIImage(named: String(allTools?[indexPath.row].image ?? "no-image"))
         cell.textLabel?.text = allTools?[indexPath.row].title
-        cell.detailTextLabel?.text = "Located in \(String(describing: allTools?[indexPath.row].self.parentCategory.first?.title)) in \(String(describing: allTools?[indexPath.row].self.parentCategory[1].title))"
+        cell.detailTextLabel?.text = "Located in \(String(describing: allTools?[indexPath.row].self.parentCategory.first!.title)) in Parent)"
         
-        print(allTools?[indexPath.row].self.parentCategory)
+        print(String(describing: allTools?[indexPath.row].parentCategory.self.first))
         
         return cell
     }

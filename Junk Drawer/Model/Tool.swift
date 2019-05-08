@@ -20,8 +20,7 @@ class Tool: Object {
     @objc dynamic var reminderDate: Date?
     
     @objc dynamic var image = ""
-    // @objc dynamic var tint = ??
-    // @objc dynamic var location = ??
+    @objc dynamic var tint = ""
     
     // the children of this class are an array of type Tag
     let tags = List<Tag>()
