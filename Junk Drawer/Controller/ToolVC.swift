@@ -190,10 +190,9 @@ class ToolVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
             }
         } else if segue.identifier == "goToAdd" {
             let destinationVC = segue.destination as! ToolAddVC
-            if let indexPath = toolCollectionView?.indexPathsForSelectedItems?.first {
-                destinationVC.selectedDrawer = allDrawers?[indexPath.row]
-                destinationVC.selectedCategory = allCategories?[indexPath.row]
-            }
+            print("THIS SHOULD RUN :) ")
+            destinationVC.selectedDrawer = selectedDrawer
+            destinationVC.selectedCategory = selectedCategory
         } else if segue.identifier == "goToSearch" {
             _ = segue.destination as! SearchVC
         }

@@ -10,9 +10,8 @@ import UIKit
 import RealmSwift
 import PMAlertController
 import ChameleonFramework
-import Vision
 
-class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UIImagePickerControllerDelegate, UISearchBarDelegate, UINavigationControllerDelegate {
+class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout, UISearchBarDelegate, UINavigationControllerDelegate {
     
     // MARK: - ⎡ 🌎 GLOBAL VARIABLES ⎦
     // ———————————————————————————————————————————————————————————————————
@@ -27,9 +26,7 @@ class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
     
     // storyboard connections
     @IBOutlet var categoryCollectionView: UICollectionView!
-    @IBOutlet var imageView: UIView!
     
-    let imagePicker = UIImagePickerController()
     
     // MARK: - ⎡ 🎂 APP LIFECYCLE METHODS ⎦
     // ———————————————————————————————————————————————————————————————————
@@ -40,7 +37,8 @@ class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
         // populate table view with all categories
         loadCategories()
         
-        print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
+        // print Realm file location
+        //print(FileManager.default.urls(for: .documentDirectory, in: .userDomainMask))
         
         // change navigation bar and collection view appearances
         navigationController?.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.white]
@@ -57,13 +55,6 @@ class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
         layout.minimumLineSpacing = spacing
         layout.minimumInteritemSpacing = spacing
         self.categoryCollectionView.collectionViewLayout = layout
-        
-        
-        imagePicker.delegate = self
-        imagePicker.sourceType = .camera // or .photoLibrary
-        imagePicker.allowsEditing = false
-
-        
     }
     
     // MARK: - ⎡ 📝 COLLECTION VIEW DATASOURCE METHODS ⎦
@@ -219,53 +210,6 @@ class HomeVC: UIViewController, UICollectionViewDataSource, UICollectionViewDele
             }
         }
     }
-    
-    // MARK: - ⎡ 📸 IMAGE PICKER METHODS ⎦
-    // ———————————————————————————————————————————————————————————————————
-    
-    @IBAction func cameraTapped(_ sender: Any) {
-        present(imagePicker, animated: true, completion: nil)
-    }
-    
-    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
-        if let userPickedImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-            //imageView.image = userPickedImage
-            
-            // convert user picked image to CIImage
-            guard let ciImage = CIImage(image: userPickedImage) else {
-                fatalError("Could not convert to CIImage")
-            }
-            
-            // pass into detect method
-            detect(image: ciImage)
-        }
-        
-        imagePicker.dismiss(animated: true, completion: nil)
-    }
-    
-    func detect(image: CIImage) {
-        // load the image recognition model
-        guard let model = try? VNCoreMLModel(for: Inceptionv3().model) else {
-            fatalError("Loading CoreML Model Failed")
-        }
-        
-        // ask model to classify image that is passed into it
-        let request = VNCoreMLRequest(model: model) { (request, error) in
-            guard let results = request.results as? [VNClassificationObservation] else {
-                fatalError("Model failed to process image")
-            }
-            
-            
-            
-            let handler = VNImageRequestHandler(ciImage: image)
-            do {
-                try handler.perform([request])
-            } catch {
-                print("Error - \(error)")
-            }
-        }
-    }
-    
 }
 
 

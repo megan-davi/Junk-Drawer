@@ -108,6 +108,7 @@ class DrawerVC: SwipeCellVC, UIImagePickerControllerDelegate {
     // user selects a drawer ∴ segue to that drawer's associated tools
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         performSegue(withIdentifier: "goToTool", sender: self)
+        drawerTableView.deselectRow(at: indexPath, animated: true)
     }
     
     @IBAction func searchTapped(_ sender: Any) {
