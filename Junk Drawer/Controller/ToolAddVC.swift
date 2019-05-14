@@ -86,28 +86,29 @@ class ToolAddVC: UIViewController {
                     //newTool.expirationBoolean = expBoolean
                     //newTool.desc = descriptionField.text ?? ""
                     currentDrawer.tools.append(newTool)
+                    realm.add(currentDrawer, update: true)
                 }
             } catch {
                 print("Error saving new tool under drawer \(error)")
             }
         }
         
-        if let currentCategory = self.selectedCategory {
-            do {
-                try self.realm.write {
-                    let newTool = Tool()
-                    newTool.title = titleField.text ?? ""
-                    //newTool.image = "garage"
-                    //newTool.quantity = 1
-                    //newTool.expirationBoolean = expBoolean
-                    //newTool.desc = descriptionField.text ?? ""
-                    currentCategory.tools.append(newTool)
-                }
-            } catch {
-                print("Error saving new tool under category \(error)")
-            }
-            
-        }
+//        if let currentCategory = self.selectedCategory {
+//            do {
+//                try self.realm.write {
+//                    let newTool = Tool()
+//                    newTool.title = titleField.text ?? ""
+//                    //newTool.image = "garage"
+//                    //newTool.quantity = 1
+//                    //newTool.expirationBoolean = expBoolean
+//                    //newTool.desc = descriptionField.text ?? ""
+//                    currentCategory.tools.append(newTool)
+//                }
+//            } catch {
+//                print("Error saving new tool under category \(error)")
+//            }
+//
+//        }
         
         // go back to previous view controller
         navigationController?.popViewController(animated: true)

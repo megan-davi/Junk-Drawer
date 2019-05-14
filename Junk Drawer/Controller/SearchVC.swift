@@ -16,6 +16,7 @@ class SearchVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     var allTools: Results<Tool>?
     
     @IBOutlet var searchTableView: UITableView!
+    var filteredTools: [String]!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -27,8 +28,10 @@ class SearchVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         searchBar.sizeToFit()
         searchBar.placeholder = "Search by tool or tag..."
         navigationItem.titleView = searchBar
-        navigationItem.leftBarButtonItem?.title = ""
         
+        searchTableView.dataSource = self
+        searchBar.delegate = self
+
     }
     
     // MARK: - ⎡ 📝 TABLEVIEW DATASOURCE METHODS ⎦
@@ -39,19 +42,27 @@ class SearchVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
         return allTools?.count ?? 0
     }
     
-    // set row equal to item title property and add a checkmark if done property = true, else say there are no items added
+    // show tools in a table view
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "searchCell", for: indexPath)
-
-        print("IMAGE", String(describing: allTools?[indexPath.row].self.image))
         
-        cell.imageView?.image = UIImage(named: String(allTools?[indexPath.row].image ?? "no-image"))
+        // find tool location
+        let toolLocation = allTools![indexPath.row].self.parentCategory.first!.title
+        let drawerLocation = allTools![indexPath.row].parentCategory.self.first._rlmInferWrappedType().parentCategory.first!.title
+        
+        // show cell image, title, and location
+        cell.imageView?.image = UIImage(named: "no-image")
         cell.textLabel?.text = allTools?[indexPath.row].title
-        cell.detailTextLabel?.text = "Located in \(String(describing: allTools?[indexPath.row].self.parentCategory.first!.title)) in Parent)"
-        
-        print(String(describing: allTools?[indexPath.row].parentCategory.self.first))
+        cell.detailTextLabel?.text =
+        "Located in \(String(describing: drawerLocation)) in \(String(describing: toolLocation))"
         
         return cell
+    }
+    
+    // retrieve tools from realm
+    func loadTools() {
+        allTools = realm.objects(Tool.self)
+        searchTableView.reloadData()
     }
     
     // MARK: - ⎡ 👆 TABLE VIEW DELEGATE METHODS ⎦
@@ -77,7 +88,7 @@ class SearchVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
     
     // when the search button is pressed, look for all of the data entries where the search bar text matches the data
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
-        allTools = allTools?.filter("title CONTAINS[cd] %@", searchBar.text!).sorted(byKeyPath: "dateCreated", ascending: true)    // search is case and diacritic insensitive
+        allTools = allTools?.filter("title CONTAINS[cd] %@", searchBar.text!).sorted(byKeyPath: "title", ascending: true)    // search is case and diacritic insensitive
         searchTableView.reloadData()
     }
     
@@ -89,11 +100,5 @@ class SearchVC: UIViewController, UITableViewDataSource, UITableViewDelegate, UI
                 searchBar.resignFirstResponder()
             }
         }
-    }
-    
-    // retrieve tools from realm
-    func loadTools() {
-        allTools = realm.objects(Tool.self)
-        searchTableView.reloadData()
     }
 }
